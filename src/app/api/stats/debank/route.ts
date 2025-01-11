@@ -6,8 +6,12 @@ export async function GET(request: Request) {
   const endpoint = searchParams.get('endpoint')
   const queryParams = searchParams.toString().replace(`endpoint=${endpoint}&`, '')
   
-  if (!endpoint) {
-    return NextResponse.json({ error: 'No endpoint specified' }, { status: 400 })
+  if (!endpoint || !['user/total_balance', 
+                    'user/history_list', 
+                    'token/balance_list', 
+                    'user/complex_protocol_list',
+                    'user/token_list'].includes(endpoint)) {
+    return NextResponse.json({ error: 'Invalid endpoint' }, { status: 400 })
   }
 
   try {

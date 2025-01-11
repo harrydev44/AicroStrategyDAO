@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 import { getProtocolImage } from '@/utils/protocol-images'
 import Link from 'next/link'
-import examplePortfolioData from './exampleporfoliojson.json'
 
 interface ChainBalance {
   id: string
@@ -340,27 +339,22 @@ export function Dashboard() {
         const tokenData = await tokenRes.json()
         setTokens(tokenData)
         
-        // Fetch portfolio data
-        if (process.env.NODE_ENV === 'development') {
-          // Simulate API delay
-          await new Promise(resolve => setTimeout(resolve, 500))
-          setPortfolioData(examplePortfolioData.data)
-        } else {
-          // Production API call
-          const portfolioResponse = await fetch('https://api.debank.com/portfolio/list?user_addr=0xddc23d34ea2f6920d15995607d00def9478ded6d', {
-            headers: {
-              'accept': '*/*',
-              'source': 'web',
-              // Add your API headers here
-            }
-          })
-          const data = await portfolioResponse.json()
-          if (data.error_code === 429) {
-            throw new Error('Rate limited: ' + data.error_msg)
-          }
-          setPortfolioData(data.data)
+        // Add new portfolio fetch
+        const portfolioRes = await fetch(
+          '/api/stats/debank?endpoint=user/complex_protocol_list&id=0xddc23d34ea2f6920d15995607d00def9478ded6d&chain_id=base'
+        )
+
+        if (!portfolioRes.ok) {
+          throw new Error('Failed to fetch portfolio data')
         }
+
+        const portfolioData = await portfolioRes.json()
         
+        if (!Array.isArray(portfolioData)) {
+          throw new Error('Invalid portfolio data format')
+        }
+
+        setPortfolioData(portfolioData)
         setLoading(false)
       } catch (err) {
         console.error('Error fetching data:', err)
@@ -697,14 +691,15 @@ export function Dashboard() {
                             />
                             <span className="font-medium">{protocol.name}</span>
                             <span className="ml-auto">
-                              ${formatUsdValue(protocol.portfolio_item_list.reduce((sum, item) => sum + item.stats.net_usd_value, 0))}
+                              ${formatUsdValue(protocol.portfolio_item_list.reduce(
+                                (sum, item) => sum + item.stats.net_usd_value, 0
+                              ))}
                             </span>
                           </div>
 
                           {/* Protocol Positions */}
                           {protocol.portfolio_item_list.map((item) => (
-                            <div key={item.name} className="border rounded-lg p-4">
-                              {/* Show badge for position type (Yield/Farming/Locked) */}
+                            <div key={`${protocol.id}-${item.name}`} className="border rounded-lg p-4">
                               <div className="inline-block bg-gray-100 text-sm px-2 py-0.5 rounded mb-3">
                                 {item.name}
                               </div>
@@ -730,23 +725,22 @@ export function Dashboard() {
                                   </div>
                                 </div>
 
-                                {/* Rewards Column (only show if rewards exist) */}
-                                {item.detail.reward_token_list && (
+                                {/* Rewards Column */}
+                                {item.detail.reward_token_list && item.detail.reward_token_list.length > 0 ? (
                                   <div>
                                     <div className="text-sm text-muted-foreground">Rewards</div>
                                     <div className="font-medium">
                                       {item.detail.reward_token_list.map((token, i) => (
                                         <div key={i}>
-                                          {formatNumber(token.amount)} {token.optimized_symbol} 
-                                          (${formatUsdValue(token.amount * token.price)})
+                                          {formatNumber(token.amount)} {token.optimized_symbol}
+                                          <span className="text-xs text-muted-foreground ml-1">
+                                            (${formatUsdValue(token.amount * token.price)})
+                                          </span>
                                         </div>
                                       ))}
                                     </div>
                                   </div>
-                                )}
-
-                                {/* USD Value Column (if not showing rewards) */}
-                                {!item.detail.reward_token_list && (
+                                ) : (
                                   <div>
                                     <div className="text-sm text-muted-foreground">USD Value</div>
                                     <div className="font-medium">
@@ -761,7 +755,7 @@ export function Dashboard() {
                       ))
                     ) : (
                       <div className="text-center text-muted-foreground">
-                        {loading ? "Loading..." : "No portfolio data available"}
+                        {loading ? "Loading..." : error || "No portfolio data available"}
                       </div>
                     )}
                   </div>
