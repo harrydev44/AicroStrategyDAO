@@ -57,7 +57,18 @@ interface Transaction {
     logo_url: string
     price: number
     optimized_symbol?: string
+    is_scam?: boolean
+    is_erc721?: boolean
+    inner_id?: string
+    collection?: {
+      name: string
+    }
   }>
+  token_approve?: {
+    spender: string
+    token_id: string
+    value: number
+  }
 }
 
 interface DebankResponse {
@@ -255,7 +266,7 @@ export function Dashboard() {
         <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
         <div className="space-y-4">
           {transactions
-            .filter(tx => !tx.is_scam)
+            .filter(tx => !tx.is_scam && !tx.token_dict?.[tx.token_approve?.token_id]?.is_scam)
             .map((tx) => (
               <div key={tx.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                 <div className="flex items-center gap-3">
@@ -288,13 +299,19 @@ export function Dashboard() {
                       const amount = Number(send.amount)
                       return (
                         <div key={i} className="text-red-500 font-medium">
-                          {amount ? (
+                          {token?.is_erc721 ? (
+                            <>
+                              -{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
+                              #{token?.inner_id}
+                              {token?.price ? ` ($${(token.price * amount).toFixed(2)})` : ''}
+                            </>
+                          ) : (
                             <>
                               -{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
                               {token?.name && ` (${token.name})`}
                               {token?.price ? ` ($${(token.price * amount).toFixed(2)})` : ''}
                             </>
-                          ) : '0'}
+                          )}
                         </div>
                       )
                     })}
