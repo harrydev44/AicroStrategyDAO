@@ -73,6 +73,7 @@ interface Transaction {
     logo_url: string
     name: string
   }>
+  cate_dict?: CategoryDict
 }
 
 interface DebankResponse {
@@ -83,6 +84,13 @@ interface DebankResponse {
 interface DebankTxResponse {
   history_list: Transaction[]
 }
+
+type CategoryDict = {
+  [key: string]: {
+    id: string;
+    name: string;
+  };
+};
 
 export function Dashboard() {
   const [data, setData] = useState<DebankResponse>({
@@ -179,6 +187,28 @@ export function Dashboard() {
     }
   }
 
+  const getTransactionName = (tx: any, cateDict?: CategoryDict) => {
+    // If there's a category ID and we have the dictionary, use the mapped name
+    if (tx.cate_id && cateDict && cateDict[tx.cate_id]) {
+      return cateDict[tx.cate_id].name;
+    }
+    
+    // If there's a transaction with a name, use it
+    if (tx.tx?.name) {
+      return tx.tx.name;
+    }
+
+    // For transactions without a name but with sends/receives
+    if (tx.sends?.length > 0) {
+      return "Send";
+    }
+    if (tx.receives?.length > 0) {
+      return "Receive";
+    }
+
+    return "Unnamed Transaction";
+  };
+
   if (loading) {
     return (
       <div className="space-y-8">
@@ -260,19 +290,33 @@ export function Dashboard() {
               <div key={tx.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                 <div className="flex items-center gap-3">
                   <Image
-                    src={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? tx.project_dict[tx.project_id].logo_url : getProtocolImage(tx.project_id)}
-                    alt={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? tx.project_dict[tx.project_id].name : tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
-                    width={24}
-                    height={24}
+                    src={
+                      tx.cate_id === 'send' || tx.cate_id === 'receive'
+                        ? '/avatar.png'
+                        : tx.project_id?.includes('uniswap')
+                          ? '/uni.png'
+                          : tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
+                            ? tx.project_dict[tx.project_id].logo_url
+                            : getProtocolImage(tx.project_id)
+                    }
+                    alt={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
+                      ? tx.project_dict[tx.project_id].name
+                      : tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
+                    width={(tx.cate_id === 'send' || tx.cate_id === 'receive') ? 32 : 24}
+                    height={(tx.cate_id === 'send' || tx.cate_id === 'receive') ? 32 : 24}
                     className="rounded-full"
                     unoptimized
                   />
                   <div>
                     <div className="font-medium">
-                      {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? tx.project_dict[tx.project_id].name : tx.project_id?.replace('base_', '') || 'Unknown'}
+                      {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? (
+                        tx.project_dict[tx.project_id].name
+                      ) : (
+                        tx.project_id?.replace('base_', '') || 'Unknown'
+                      )}
                       {' - '}
                       <span className="text-gray-600">
-                        {tx.tx?.name || (tx.cate_id === 'receive' ? 'Receive' : 'Unnamed Transaction')}
+                        {getTransactionName(tx, tx.cate_dict)}
                       </span>
                     </div>
                     <div className="text-sm text-muted-foreground">
@@ -316,15 +360,17 @@ export function Dashboard() {
                       )
                     })}
                     {tx.receives?.map((receive, i) => {
-                      const token = tx.token_dict?.[receive.token_id]
+                      const token = receive.token_id === 'base'
+                        ? tx.token_dict?.['base']
+                        : tx.token_dict?.[receive.token_id]
                       const amount = Number(receive.amount)
                       const usdValue = token?.price ? (token.price * amount) : 0
                       return (
                         <div key={i} className="text-green-500 font-medium flex items-center justify-end gap-2">
-                          {token?.logo_url && (
+                          {(token?.logo_url || receive.token_id === 'base') && (
                             <Image
-                              src={token.logo_url}
-                              alt={token.symbol}
+                              src={token?.logo_url || '/eth.png'}
+                              alt={token?.symbol || 'ETH'}
                               width={16}
                               height={16}
                               className="rounded-full"
@@ -340,7 +386,7 @@ export function Dashboard() {
                               </>
                             ) : (
                               <>
-                                +{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                                +{amount.toFixed(6)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
                                 {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
                               </>
                             )}
