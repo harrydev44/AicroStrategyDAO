@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 import { getProtocolImage } from '@/utils/protocol-images'
+import Link from 'next/link'
 
 interface ChainBalance {
   id: string
@@ -211,6 +212,20 @@ type CategoryDict = {
 };
 
 export function Dashboard() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', updateMousePosition);
+
+    return () => {
+      window.removeEventListener('mousemove', updateMousePosition);
+    };
+  }, []);
+
   const [data, setData] = useState<DebankResponse>({
     total_usd_value: 0,
     chain_list: []
@@ -368,222 +383,296 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Total Balance */}
-      <Card className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Total Balance</h2>
-        <div className="text-4xl font-bold text-primary">
-          ${formatUsdValue(data.total_usd_value)}
-        </div>
-      </Card>
+    <div className="flex min-h-screen flex-col">
+      <div
+        className="pointer-events-none fixed z-[999] h-3 w-3 rounded-full transition-transform duration-200 ease-out"
+        style={{
+          left: `${mousePosition.x}px`,
+          top: `${mousePosition.y}px`,
+          transform: 'translate(-50%, -50%)',
+          backgroundColor: '#df1f21'
+        }}
+      />
+      <div
+        className="pointer-events-none fixed z-[998] h-8 w-8 rounded-full border transition-transform duration-300 ease-out"
+        style={{
+          left: `${mousePosition.x}px`,
+          top: `${mousePosition.y}px`,
+          transform: 'translate(-50%, -50%)',
+          borderColor: '#df1f21'
+        }}
+      />
 
-      {/* Chain Balances */}
-      <Card className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Chain Balances</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {data.chain_list
-            .filter(chain => chain.usd_value > 0) // Only show chains with balance > 0
-            .sort((a, b) => b.usd_value - a.usd_value) // Sort by value, highest first
-            .map((chain) => (
-              <div key={chain.id} className="flex items-center space-x-2 p-2 border rounded-lg">
-                <Image
-                  src={chain.logo_url}
-                  alt={chain.name}
-                  width={24}
-                  height={24}
-                  className="rounded-full"
-                  unoptimized
-                />
-                <div>
-                  <div className="font-medium text-sm">{chain.name}</div>
-                  <div className="text-xs text-muted-foreground">
-                    ${formatUsdValue(chain.usd_value)}
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
-        {data.chain_list.filter(chain => chain.usd_value > 0).length === 0 && (
-          <div className="text-center text-muted-foreground py-4">
-            No chain balances found
+      <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
+        <div className="backdrop-blur-md bg-white/70 rounded-full border px-6 py-3">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center space-x-2">
+              <Image src="/aicrostrategy.png" alt="AicroStrategy Logo" width={160} height={32} />
+            </Link>
+            <nav className="flex items-center gap-8">
+              <Link href="https://dexscreener.com/base/0x197ecb5c176ad4f6e77894913a94c5145416f148"
+                className="text-sm font-medium transition-colors hover:text-primary"
+                target="_blank">
+                DexScreener
+              </Link>
+              <Link href="https://t.me/aicrostrategy_dao"
+                className="text-sm font-medium transition-colors hover:text-primary"
+                target="_blank">
+                Telegram
+              </Link>
+              <Link href="https://x.com/AicroStrategy"
+                className="text-sm font-medium transition-colors hover:text-primary"
+                target="_blank">
+                Twitter
+              </Link>
+              <Link href="/stats" 
+                className="text-sm font-medium transition-colors hover:text-primary">
+                Stats
+              </Link>
+            </nav>
           </div>
-        )}
-      </Card>
+        </div>
+      </header>
 
-      {/* Assets */}
-      <Card className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Assets</h2>
-        <div className="space-y-4">
-          {tokens
-            .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
-            .slice(0, 20)
-            .map((token) => {
-              const usdValue = token.price * token.amount
-              const priceChange = token.price_24h_change || 0
-              
-              return (
-                <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
-                  <div className="flex items-center gap-2">
+      <main className="flex-1 pt-24">
+        <div className="space-y-8">
+          <Card className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Total Balance</h2>
+            <div className="text-4xl font-bold text-primary">
+              ${formatUsdValue(data.total_usd_value)}
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Chain Balances</h2>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {data.chain_list
+                .filter(chain => chain.usd_value > 0)
+                .sort((a, b) => b.usd_value - a.usd_value)
+                .map((chain) => (
+                  <div key={chain.id} className="flex items-center space-x-2 p-2 border rounded-lg">
                     <Image
-                      src={
-                        token.symbol === 'mwcbBTC' 
-                          ? '/cbtc.png' 
-                          : token.logo_url 
-                            ? token.logo_url 
-                            : '/imageplace.png'
-                      }
-                      alt={token.name}
+                      src={chain.logo_url}
+                      alt={chain.name}
                       width={24}
                       height={24}
                       className="rounded-full"
                       unoptimized
                     />
                     <div>
-                      <div className="font-medium text-sm">{token.name}</div>
+                      <div className="font-medium text-sm">{chain.name}</div>
                       <div className="text-xs text-muted-foreground">
-                        {formatNumber(token.amount)} {token.optimized_symbol}
+                        ${formatUsdValue(chain.usd_value)}
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
-                    <div className="flex items-center justify-end gap-1 mt-0.5">
-                      <div className="text-xs text-muted-foreground">
-                        ${formatNumber(token.price)}
+                ))}
+            </div>
+            {data.chain_list.filter(chain => chain.usd_value > 0).length === 0 && (
+              <div className="text-center text-muted-foreground py-4">
+                No chain balances found
+              </div>
+            )}
+          </Card>
+
+          <Card className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Assets</h2>
+            <div className="space-y-4">
+              {tokens
+                .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
+                .slice(0, 20)
+                .map((token) => {
+                  const usdValue = token.price * token.amount
+                  const priceChange = token.price_24h_change || 0
+                  
+                  return (
+                    <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={
+                            token.symbol === 'mwcbBTC' 
+                              ? '/cbtc.png' 
+                              : token.logo_url 
+                                ? token.logo_url 
+                                : '/imageplace.png'
+                          }
+                          alt={token.name}
+                          width={24}
+                          height={24}
+                          className="rounded-full"
+                          unoptimized
+                        />
+                        <div>
+                          <div className="font-medium text-sm">{token.name}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {formatNumber(token.amount)} {token.optimized_symbol}
+                          </div>
+                        </div>
                       </div>
-                      {priceChange !== 0 && (
-                        <div className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-flex items-center ${
-                          priceChange > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
-                        }`}>
-                          <span className="text-[10px] leading-none flex items-center">
-                            {priceChange > 0 ? '↑' : '↓'}
+                      <div className="text-right">
+                        <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
+                        <div className="flex items-center justify-end gap-1 mt-0.5">
+                          <div className="text-xs text-muted-foreground">
+                            ${formatNumber(token.price)}
+                          </div>
+                          {priceChange !== 0 && (
+                            <div className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-flex items-center ${
+                              priceChange > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                            }`}>
+                              <span className="text-[10px] leading-none flex items-center">
+                                {priceChange > 0 ? '↑' : '↓'}
+                              </span>
+                              <span className="ml-0.5">
+                                {Math.abs(priceChange).toFixed(2)}%
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
+            <div className="space-y-4">
+              {transactions
+                .filter(tx => {
+                    const tokenId = tx.token_approve?.token_id;
+                    const tokenDict = tx.token_dict ?? {};
+                    return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
+                })
+                .map((tx) => (
+                  <div key={tx.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50 h-14">
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={
+                          tx.chain === 'base' && !tx.project_id
+                            ? '/baseicon.png'
+                            : tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
+                              ? tx.project_dict[tx.project_id].logo_url
+                              : tx.project_id?.includes('uniswap')
+                                ? '/uni.png'
+                                : getProtocolImage(tx.project_id) || '/avatar2.png'
+                        }
+                        alt={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
+                          ? tx.project_dict[tx.project_id].name
+                          : tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
+                        width={24}
+                        height={24}
+                        className="rounded-full"
+                        unoptimized
+                      />
+                      <div>
+                        <div className="flex items-center gap-1 text-sm">
+                          <span className="font-medium">
+                            {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
+                              ? tx.project_dict[tx.project_id].name
+                              : tx.project_id?.replace('base_', '') || 'Transfer'}
                           </span>
-                          <span className="ml-0.5">
-                            {Math.abs(priceChange).toFixed(2)}%
+                          <span className="text-gray-600">
+                            {getTransactionName(tx, tx.cate_dict)}
                           </span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {formatDistanceToNow(tx.time_at * 1000, { addSuffix: true })}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right flex flex-col items-end justify-center">
+                      <div className="flex flex-wrap justify-end gap-2">
+                        {tx.sends?.map((send, i) => {
+                          const token = tx.token_dict?.[send.token_id]
+                          const amount = Number(send.amount)
+                          const usdValue = token?.price ? (token.price * amount) : 0
+                          return (
+                            <div key={i} className="text-red-500 text-xs flex items-center gap-1">
+                              {token?.logo_url && (
+                                <Image
+                                  src={token.logo_url}
+                                  alt={token.symbol}
+                                  width={14}
+                                  height={14}
+                                  className="rounded-full"
+                                  unoptimized
+                                />
+                              )}
+                              <span>
+                                -{formatNumber(amount)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                                <span className="text-[10px] text-muted-foreground ml-1">
+                                  ${formatUsdValue(usdValue)}
+                                </span>
+                              </span>
+                            </div>
+                          )
+                        })}
+                        {tx.receives?.map((receive: { amount: number; token_id: string; from_addr?: string }, i) => {
+                          const token = receive.token_id === 'base'
+                            ? tx.token_dict?.['base']
+                            : tx.token_dict?.[receive.token_id]
+                          const amount = Number(receive.amount)
+                          const usdValue = token?.price ? (token.price * amount) : 0
+                          return (
+                            <div key={i} className="text-green-500 text-xs flex items-center gap-1">
+                              {(token?.logo_url || receive.token_id === 'base') && (
+                                <Image
+                                  src={token?.logo_url || '/eth.png'}
+                                  alt={token?.symbol || 'ETH'}
+                                  width={14}
+                                  height={14}
+                                  className="rounded-full"
+                                  unoptimized
+                                />
+                              )}
+                              <span>
+                                +{formatNumber(amount)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
+                                <span className="text-[10px] text-muted-foreground ml-1">
+                                  ${formatUsdValue(usdValue)}
+                                </span>
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                      {(tx.tx?.eth_gas_fee || tx.tx?.usd_gas_fee) && (
+                        <div className="text-[10px] text-muted-foreground mt-0.5">
+                          Gas: {tx.tx?.eth_gas_fee ? `${formatNumber(tx.tx.eth_gas_fee)} ETH` : ''} 
+                          {tx.tx?.usd_gas_fee ? ` ($${formatUsdValue(tx.tx.usd_gas_fee)})` : ''}
                         </div>
                       )}
                     </div>
                   </div>
-                </div>
-              )
-            })}
+                ))}
+            </div>
+          </Card>
         </div>
-      </Card>
+      </main>
 
-      {/* Recent Transactions */}
-      <Card className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
-        <div className="space-y-4">
-          {transactions
-            .filter(tx => {
-                const tokenId = tx.token_approve?.token_id;
-                const tokenDict = tx.token_dict ?? {};
-                return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
-            })
-            .map((tx) => (
-              <div key={tx.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50 h-14">
-                <div className="flex items-center gap-2">
-                  <Image
-                    src={
-                      tx.chain === 'base' && !tx.project_id
-                        ? '/baseicon.png'
-                        : tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
-                          ? tx.project_dict[tx.project_id].logo_url
-                          : tx.project_id?.includes('uniswap')
-                            ? '/uni.png'
-                            : getProtocolImage(tx.project_id) || '/avatar2.png'
-                    }
-                    alt={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
-                      ? tx.project_dict[tx.project_id].name
-                      : tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
-                    width={24}
-                    height={24}
-                    className="rounded-full"
-                    unoptimized
-                  />
-                  <div>
-                    <div className="flex items-center gap-1 text-sm">
-                      <span className="font-medium">
-                        {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
-                          ? tx.project_dict[tx.project_id].name
-                          : tx.project_id?.replace('base_', '') || 'Transfer'}
-                      </span>
-                      <span className="text-gray-600">
-                        {getTransactionName(tx, tx.cate_dict)}
-                      </span>
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {formatDistanceToNow(tx.time_at * 1000, { addSuffix: true })}
-                    </div>
-                  </div>
-                </div>
-                <div className="text-right flex flex-col items-end justify-center">
-                  <div className="flex flex-wrap justify-end gap-2">
-                    {tx.sends?.map((send, i) => {
-                      const token = tx.token_dict?.[send.token_id]
-                      const amount = Number(send.amount)
-                      const usdValue = token?.price ? (token.price * amount) : 0
-                      return (
-                        <div key={i} className="text-red-500 text-xs flex items-center gap-1">
-                          {token?.logo_url && (
-                            <Image
-                              src={token.logo_url}
-                              alt={token.symbol}
-                              width={14}
-                              height={14}
-                              className="rounded-full"
-                              unoptimized
-                            />
-                          )}
-                          <span>
-                            -{formatNumber(amount)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
-                            <span className="text-[10px] text-muted-foreground ml-1">
-                              ${formatUsdValue(usdValue)}
-                            </span>
-                          </span>
-                        </div>
-                      )
-                    })}
-                    {tx.receives?.map((receive: { amount: number; token_id: string; from_addr?: string }, i) => {
-                      const token = receive.token_id === 'base'
-                        ? tx.token_dict?.['base']
-                        : tx.token_dict?.[receive.token_id]
-                      const amount = Number(receive.amount)
-                      const usdValue = token?.price ? (token.price * amount) : 0
-                      return (
-                        <div key={i} className="text-green-500 text-xs flex items-center gap-1">
-                          {(token?.logo_url || receive.token_id === 'base') && (
-                            <Image
-                              src={token?.logo_url || '/eth.png'}
-                              alt={token?.symbol || 'ETH'}
-                              width={14}
-                              height={14}
-                              className="rounded-full"
-                              unoptimized
-                            />
-                          )}
-                          <span>
-                            +{formatNumber(amount)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
-                            <span className="text-[10px] text-muted-foreground ml-1">
-                              ${formatUsdValue(usdValue)}
-                            </span>
-                          </span>
-                        </div>
-                      )
-                    })}
-                  </div>
-                  {(tx.tx?.eth_gas_fee || tx.tx?.usd_gas_fee) && (
-                    <div className="text-[10px] text-muted-foreground mt-0.5">
-                      Gas: {tx.tx?.eth_gas_fee ? `${formatNumber(tx.tx.eth_gas_fee)} ETH` : ''} 
-                      {tx.tx?.usd_gas_fee ? ` ($${formatUsdValue(tx.tx.usd_gas_fee)})` : ''}
-                    </div>
-                  )}
-                </div>
+      <footer className="border-t py-12 bg-white">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-8">
+              <Image src="/aicrostrategy.png" alt="AicroStrategy Logo" width={140} height={28} />
+              <div className="text-sm text-muted-foreground">
+                © {new Date().getFullYear()} AicroStrategy
               </div>
-            ))}
+            </div>
+            <div className="flex items-center gap-6">
+              <Link href="https://t.me/aicrostrategy_dao" className="text-muted-foreground hover:text-primary" target="_blank">
+                Telegram
+              </Link>
+              <Link href="https://x.com/AicroStrategy" className="text-muted-foreground hover:text-primary" target="_blank">
+                Twitter
+              </Link>
+              <Link href="https://github.com/aicrostrategy" className="text-muted-foreground hover:text-primary" target="_blank">
+                GitHub
+              </Link>
+            </div>
+          </div>
         </div>
-      </Card>
+      </footer>
     </div>
   )
 } 
