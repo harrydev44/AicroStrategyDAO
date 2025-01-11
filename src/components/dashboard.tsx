@@ -436,10 +436,10 @@ export function Dashboard() {
 
       <main className="flex-1 pt-24">
         <div className="container mx-auto max-w-7xl px-4">
-          <h1 className="text-4xl font-bold mb-8 mt-4">AicroStrategy Stats</h1>
-          <div className="space-y-8">
+          <h1 className="text-4xl font-bold mb-8 mt-2">Stats</h1>
+          <div className="space-y-4">
             <Card className="p-6">
-              <h2 className="text-2xl font-bold mb-4">Total Balance</h2>
+              <h2 className="text-2xl font-bold mb-2">Total Balance</h2>
               <div className="text-4xl font-bold text-primary">
                 ${formatUsdValue(data.total_usd_value)}
               </div>
