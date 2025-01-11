@@ -1,6 +1,6 @@
 {
     "_cache_seconds": 0,
-    "_seconds": 0.03553271293640137,
+    "_seconds": 0.038771629333496094,
     "_use_cache": false,
     "data": [
         {
@@ -16,13 +16,13 @@
             "portfolio_item_list": [
                 {
                     "asset_dict": {
-                        "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979": 248044.71988712158,
-                        "0x940181a94a35a4569e4529a3cdfb74e38fd98631": 21.081014367060728,
-                        "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 0.12945220172268582
+                        "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979": 249103.47893355938,
+                        "0x940181a94a35a4569e4529a3cdfb74e38fd98631": 21.80247120707758,
+                        "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 0.12890199509540182
                     },
                     "asset_token_list": [
                         {
-                            "amount": 248044.71988712158,
+                            "amount": 249103.47893355938,
                             "chain": "base",
                             "decimals": 18,
                             "display_symbol": null,
@@ -33,13 +33,13 @@
                             "logo_url": "https://static.debank.com/image/base_token/logo_url/0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979/1a2556a9965b8afa4f97b6fdf5029f1e.png",
                             "name": "Fantom Bomb",
                             "optimized_symbol": "fBOMB",
-                            "price": 0.050135904010110546,
+                            "price": 0.049670858548678025,
                             "protocol_id": "",
                             "symbol": "fBOMB",
                             "time_at": 1691002561.0
                         },
                         {
-                            "amount": 0.12945220172268582,
+                            "amount": 0.12890199509540182,
                             "chain": "base",
                             "decimals": 8,
                             "display_symbol": null,
@@ -50,13 +50,13 @@
                             "logo_url": "https://static.debank.com/image/base_token/logo_url/0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf/a4ae837a6ca2fc45f07a74898cc4ba45.png",
                             "name": "Coinbase Wrapped BTC",
                             "optimized_symbol": "cbBTC",
-                            "price": 94193.04909472747,
+                            "price": 94151.37457113955,
                             "protocol_id": "",
                             "symbol": "cbBTC",
                             "time_at": 1724165535.0
                         },
                         {
-                            "amount": 21.081014367060728,
+                            "amount": 21.80247120707758,
                             "chain": "base",
                             "decimals": 18,
                             "display_symbol": null,
@@ -67,7 +67,7 @@
                             "logo_url": "https://static.debank.com/image/base_token/logo_url/0x940181a94a35a4569e4529a3cdfb74e38fd98631/bb455b8557be5d08ad67f4314f899e15.png",
                             "name": "Aerodrome",
                             "optimized_symbol": "AERO",
-                            "price": 1.0964759553520005,
+                            "price": 1.098519096975106,
                             "protocol_id": "base_aerodrome3",
                             "symbol": "AERO",
                             "time_at": 1693190447.0
@@ -76,7 +76,7 @@
                     "detail": {
                         "reward_token_list": [
                             {
-                                "amount": 21.081014367060728,
+                                "amount": 21.80247120707758,
                                 "chain": "base",
                                 "decimals": 18,
                                 "display_symbol": null,
@@ -87,7 +87,7 @@
                                 "logo_url": "https://static.debank.com/image/base_token/logo_url/0x940181a94a35a4569e4529a3cdfb74e38fd98631/bb455b8557be5d08ad67f4314f899e15.png",
                                 "name": "Aerodrome",
                                 "optimized_symbol": "AERO",
-                                "price": 1.0964759553520005,
+                                "price": 1.098519096975106,
                                 "protocol_id": "base_aerodrome3",
                                 "symbol": "AERO",
                                 "time_at": 1693190447.0
@@ -95,7 +95,7 @@
                         ],
                         "supply_token_list": [
                             {
-                                "amount": 248044.71988712158,
+                                "amount": 249103.47893355938,
                                 "chain": "base",
                                 "decimals": 18,
                                 "display_symbol": null,
@@ -106,13 +106,13 @@
                                 "logo_url": "https://static.debank.com/image/base_token/logo_url/0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979/1a2556a9965b8afa4f97b6fdf5029f1e.png",
                                 "name": "Fantom Bomb",
                                 "optimized_symbol": "fBOMB",
-                                "price": 0.050135904010110546,
+                                "price": 0.049670858548678025,
                                 "protocol_id": "",
                                 "symbol": "fBOMB",
                                 "time_at": 1691002561.0
                             },
                             {
-                                "amount": 0.12945220172268582,
+                                "amount": 0.12890199509540182,
                                 "chain": "base",
                                 "decimals": 8,
                                 "display_symbol": null,
@@ -123,7 +123,7 @@
                                 "logo_url": "https://static.debank.com/image/base_token/logo_url/0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf/a4ae837a6ca2fc45f07a74898cc4ba45.png",
                                 "name": "Coinbase Wrapped BTC",
                                 "optimized_symbol": "cbBTC",
-                                "price": 94193.04909472747,
+                                "price": 94151.37457113955,
                                 "protocol_id": "",
                                 "symbol": "cbBTC",
                                 "time_at": 1724165535.0
@@ -145,11 +145,11 @@
                     },
                     "proxy_detail": {},
                     "stats": {
-                        "asset_usd_value": 24652.558684128908,
+                        "asset_usd_value": 24533.43412026902,
                         "debt_usd_value": 0,
-                        "net_usd_value": 24652.558684128908
+                        "net_usd_value": 24533.43412026902
                     },
-                    "update_at": 1736620550.0
+                    "update_at": 1736624242.0
                 },
                 {
                     "asset_dict": {
@@ -168,7 +168,7 @@
                             "logo_url": "https://static.debank.com/image/base_token/logo_url/0x940181a94a35a4569e4529a3cdfb74e38fd98631/bb455b8557be5d08ad67f4314f899e15.png",
                             "name": "Aerodrome",
                             "optimized_symbol": "AERO",
-                            "price": 1.0964759553520005,
+                            "price": 1.098519096975106,
                             "protocol_id": "base_aerodrome3",
                             "symbol": "AERO",
                             "time_at": 1693190447.0
@@ -188,7 +188,7 @@
                                 "logo_url": "https://static.debank.com/image/base_token/logo_url/0x940181a94a35a4569e4529a3cdfb74e38fd98631/bb455b8557be5d08ad67f4314f899e15.png",
                                 "name": "Aerodrome",
                                 "optimized_symbol": "AERO",
-                                "price": 1.0964759553520005,
+                                "price": 1.098519096975106,
                                 "protocol_id": "base_aerodrome3",
                                 "symbol": "AERO",
                                 "time_at": 1693190447.0
@@ -211,11 +211,11 @@
                     "position_index": "40573",
                     "proxy_detail": {},
                     "stats": {
-                        "asset_usd_value": 20734.59191173544,
+                        "asset_usd_value": 20773.228151377716,
                         "debt_usd_value": 0,
-                        "net_usd_value": 20734.59191173544
+                        "net_usd_value": 20773.228151377716
                     },
-                    "update_at": 1736620550.0
+                    "update_at": 1736624242.0
                 }
             ],
             "site_url": "https://aerodrome.finance/",
@@ -223,7 +223,7 @@
                 "dex",
                 "amm"
             ],
-            "tvl": 1338686516.3370297
+            "tvl": 1338272998.7903085
         },
         {
             "chain": "base",
@@ -238,11 +238,11 @@
             "portfolio_item_list": [
                 {
                     "asset_dict": {
-                        "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 1.00000732
+                        "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 1.00000737
                     },
                     "asset_token_list": [
                         {
-                            "amount": 1.00000732,
+                            "amount": 1.00000737,
                             "chain": "base",
                             "decimals": 8,
                             "display_symbol": null,
@@ -253,7 +253,7 @@
                             "logo_url": "https://static.debank.com/image/base_token/logo_url/0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf/a4ae837a6ca2fc45f07a74898cc4ba45.png",
                             "name": "Coinbase Wrapped BTC",
                             "optimized_symbol": "cbBTC",
-                            "price": 94193.04909472747,
+                            "price": 94151.37457113955,
                             "protocol_id": "",
                             "symbol": "cbBTC",
                             "time_at": 1724165535.0
@@ -263,7 +263,7 @@
                         "description": "Moonwell Frontier cbBTC",
                         "supply_token_list": [
                             {
-                                "amount": 1.00000732,
+                                "amount": 1.00000737,
                                 "chain": "base",
                                 "decimals": 8,
                                 "display_symbol": null,
@@ -274,7 +274,7 @@
                                 "logo_url": "https://static.debank.com/image/base_token/logo_url/0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf/a4ae837a6ca2fc45f07a74898cc4ba45.png",
                                 "name": "Coinbase Wrapped BTC",
                                 "optimized_symbol": "cbBTC",
-                                "price": 94193.04909472747,
+                                "price": 94151.37457113955,
                                 "protocol_id": "",
                                 "symbol": "cbBTC",
                                 "time_at": 1724165535.0
@@ -296,18 +296,18 @@
                     },
                     "proxy_detail": {},
                     "stats": {
-                        "asset_usd_value": 94193.73858784683,
+                        "asset_usd_value": 94152.06846677014,
                         "debt_usd_value": 0,
-                        "net_usd_value": 94193.73858784683
+                        "net_usd_value": 94152.06846677014
                     },
-                    "update_at": 1736620550.0
+                    "update_at": 1736624242.0
                 }
             ],
             "site_url": "https://app.morpho.org",
             "tag_ids": [
                 "yield_aggregator"
             ],
-            "tvl": 412113154.8137831
+            "tvl": 412105485.542174
         }
     ],
     "error_code": 0

@@ -626,123 +626,128 @@ export function Dashboard() {
             </Card>
 
             <Card className="p-6">
-              <h2 className="text-2xl font-bold mb-4">Assets</h2>
-              <div className="grid grid-cols-2 gap-4">
-                {/* Left column - Token list */}
-                <div className="space-y-4">
-                  {tokens
-                    .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
-                    .slice(0, 10)
-                    .map((token) => {
-                      const usdValue = token.price * token.amount
-                      const priceChange = token.price_24h_change || 0
-                      
-                      return (
-                        <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Left column - Wallet */}
+                <div>
+                  <h2 className="text-2xl font-bold mb-4">Wallet</h2>
+                  <div className="space-y-4">
+                    {tokens
+                      .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
+                      .slice(0, 10)
+                      .map((token) => {
+                        const usdValue = token.price * token.amount
+                        const priceChange = token.price_24h_change || 0
+                        
+                        return (
+                          <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
+                            <div className="flex items-center gap-2">
+                              <Image
+                                src={
+                                  token.symbol === 'mwcbBTC' 
+                                    ? '/cbtc.png' 
+                                    : token.logo_url 
+                                      ? token.logo_url 
+                                      : '/imageplace.png'
+                                }
+                                alt={token.name}
+                                width={24}
+                                height={24}
+                                className="rounded-full"
+                                unoptimized
+                              />
+                              <div>
+                                <div className="font-medium text-sm">{token.name}</div>
+                                <div className="text-xs text-muted-foreground">
+                                  {formatNumber(token.amount)} {token.optimized_symbol}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
+                              {priceChange !== 0 && (
+                                <div className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-flex items-center ${
+                                  priceChange > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                                }`}>
+                                  {priceChange > 0 ? '↑' : '↓'} {Math.abs(priceChange).toFixed(2)}%
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                  </div>
+                </div>
+
+                {/* Right column - Assets */}
+                <div>
+                  <h2 className="text-2xl font-bold mb-4">Assets</h2>
+                  <div className="space-y-4">
+                    {portfolioData && portfolioData.length > 0 ? (
+                      portfolioData.map((protocol) => (
+                        <div key={protocol.id} className="space-y-4">
+                          {/* Protocol Header */}
                           <div className="flex items-center gap-2">
                             <Image
-                              src={
-                                token.symbol === 'mwcbBTC' 
-                                  ? '/cbtc.png' 
-                                  : token.logo_url 
-                                    ? token.logo_url 
-                                    : '/imageplace.png'
-                              }
-                              alt={token.name}
+                              src={protocol.logo_url}
+                              alt={protocol.name}
                               width={24}
                               height={24}
                               className="rounded-full"
                               unoptimized
                             />
-                            <div>
-                              <div className="font-medium text-sm">{token.name}</div>
-                              <div className="text-xs text-muted-foreground">
-                                {formatNumber(token.amount)} {token.optimized_symbol}
-                              </div>
-                            </div>
+                            <span className="font-medium">{protocol.name}</span>
+                            <span className="ml-auto">
+                              ${formatUsdValue(protocol.portfolio_item_list.reduce((sum, item) => sum + item.stats.net_usd_value, 0))}
+                            </span>
                           </div>
-                          <div className="text-right">
-                            <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
-                            {priceChange !== 0 && (
-                              <div className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-flex items-center ${
-                                priceChange > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
-                              }`}>
-                                {priceChange > 0 ? '↑' : '↓'} {Math.abs(priceChange).toFixed(2)}%
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )
-                    })}
-                </div>
 
-                {/* Right column - Protocol positions */}
-                <div className="space-y-4">
-                  {portfolioData && portfolioData.length > 0 ? (
-                    portfolioData.map((protocol) => (
-                      <div key={protocol.id} className="space-y-4">
-                        {/* Protocol Header */}
-                        <div className="flex items-center gap-2">
-                          <Image
-                            src={protocol.logo_url}
-                            alt={protocol.name}
-                            width={24}
-                            height={24}
-                            className="rounded-full"
-                            unoptimized
-                          />
-                          <span className="font-medium">{protocol.name}</span>
-                          <span className="ml-auto">
-                            ${formatUsdValue(protocol.portfolio_item_list.reduce((sum, item) => sum + item.stats.net_usd_value, 0))}
-                          </span>
-                        </div>
-
-                        {/* Protocol Positions */}
-                        {protocol.portfolio_item_list.map((item) => (
-                          <div key={item.name} className="border rounded-lg p-4">
-                            {item.name !== "Yield" && (
-                              <div className="text-sm font-medium mb-2">{item.name}</div>
-                            )}
-                            <div className="grid grid-cols-3 gap-4">
-                              <div>
-                                <div className="text-sm text-muted-foreground">Pool</div>
-                                <div className="font-medium">
-                                  {item.detail.supply_token_list.map(token => token.optimized_symbol).join('+')}
-                                </div>
-                              </div>
-                              <div>
-                                <div className="text-sm text-muted-foreground">Balance</div>
-                                <div className="font-medium">
-                                  {item.detail.supply_token_list.map((token, i) => (
-                                    <div key={i}>
-                                      {formatNumber(token.amount)} {token.optimized_symbol}
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                              {item.detail.reward_token_list && (
+                          {/* Protocol Positions */}
+                          {protocol.portfolio_item_list.map((item) => (
+                            <div key={item.name} className="border rounded-lg p-4">
+                              {item.name !== "Yield" && (
+                                <div className="text-sm font-medium mb-2">{item.name}</div>
+                              )}
+                              <div className="grid grid-cols-3 gap-4">
                                 <div>
-                                  <div className="text-sm text-muted-foreground">Rewards</div>
+                                  <div className="text-sm text-muted-foreground">Pool</div>
                                   <div className="font-medium">
-                                    {item.detail.reward_token_list.map((token, i) => (
+                                    {item.detail.supply_token_list.map(token => token.optimized_symbol).join('+')}
+                                  </div>
+                                </div>
+                                <div>
+                                  <div className="text-sm text-muted-foreground">Balance</div>
+                                  <div className="font-medium">
+                                    {item.detail.supply_token_list.map((token, i) => (
                                       <div key={i}>
-                                        {formatNumber(token.amount)} {token.optimized_symbol} 
-                                        (${formatUsdValue(token.amount * token.price)})
+                                        {formatNumber(token.amount)} {token.optimized_symbol}
                                       </div>
                                     ))}
                                   </div>
                                 </div>
-                              )}
+                                {item.detail.reward_token_list && (
+                                  <div>
+                                    <div className="text-sm text-muted-foreground">Rewards</div>
+                                    <div className="font-medium">
+                                      {item.detail.reward_token_list.map((token, i) => (
+                                        <div key={i}>
+                                          {formatNumber(token.amount)} {token.optimized_symbol} 
+                                          (${formatUsdValue(token.amount * token.price)})
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-muted-foreground">
+                        {loading ? "Loading..." : "No portfolio data available"}
                       </div>
-                    ))
-                  ) : (
-                    <div className="text-center text-muted-foreground">
-                      {loading ? "Loading..." : "No portfolio data available"}
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             </Card>
