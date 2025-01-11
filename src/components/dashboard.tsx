@@ -622,9 +622,9 @@ export function Dashboard() {
             <Card className="p-6">
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Left column - Wallet */}
-                <div>
-                  <h2 className="text-2xl font-bold mb-4">Wallet</h2>
-                  <div className="space-y-4">
+                <div className="space-y-4">
+                  <h2 className="text-xl md:text-2xl font-bold mb-4">Wallet</h2>
+                  <div className="space-y-2 md:space-y-4">
                     {tokens
                       .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
                       .slice(0, 10)
@@ -633,8 +633,8 @@ export function Dashboard() {
                         const priceChange = token.price_24h_change || 0
                         
                         return (
-                          <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
-                            <div className="flex items-center gap-2">
+                          <div key={token.id} className="flex items-center justify-between p-2 md:p-3 border rounded-lg hover:bg-gray-50">
+                            <div className="flex items-center gap-2 min-w-0">
                               <Image
                                 src={
                                   token.symbol === 'mwcbBTC' 
@@ -644,19 +644,19 @@ export function Dashboard() {
                                       : '/imageplace.png'
                                 }
                                 alt={token.name}
-                                width={24}
-                                height={24}
-                                className="rounded-full"
+                                width={20}
+                                height={20}
+                                className="rounded-full shrink-0"
                                 unoptimized
                               />
-                              <div>
-                                <div className="font-medium text-sm">{token.name}</div>
+                              <div className="min-w-0">
+                                <div className="font-medium text-sm truncate">{token.name}</div>
                                 <div className="text-xs text-muted-foreground">
                                   {formatNumber(token.amount)} {token.optimized_symbol}
                                 </div>
                               </div>
                             </div>
-                            <div className="text-right">
+                            <div className="text-right shrink-0">
                               <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
                               {priceChange !== 0 && (
                                 <div className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-flex items-center ${
@@ -673,24 +673,24 @@ export function Dashboard() {
                 </div>
 
                 {/* Right column - Assets */}
-                <div>
-                  <h2 className="text-2xl font-bold mb-4">Assets</h2>
+                <div className="space-y-4">
+                  <h2 className="text-xl md:text-2xl font-bold mb-4">Assets</h2>
                   <div className="space-y-4">
                     {portfolioData && portfolioData.length > 0 ? (
                       portfolioData.map((protocol) => (
-                        <div key={protocol.id} className="space-y-4">
-                          {/* Protocol Header with Total Value */}
-                          <div className="flex items-center gap-2">
+                        <div key={protocol.id} className="space-y-3">
+                          {/* Protocol Header */}
+                          <div className="flex items-center gap-2 p-2">
                             <Image
                               src={protocol.logo_url}
                               alt={protocol.name}
-                              width={24}
-                              height={24}
-                              className="rounded-full"
+                              width={20}
+                              height={20}
+                              className="rounded-full shrink-0"
                               unoptimized
                             />
-                            <span className="font-medium">{protocol.name}</span>
-                            <span className="ml-auto">
+                            <span className="font-medium text-sm md:text-base">{protocol.name}</span>
+                            <span className="ml-auto text-sm">
                               ${formatUsdValue(protocol.portfolio_item_list.reduce(
                                 (sum, item) => sum + item.stats.net_usd_value, 0
                               ))}
@@ -699,40 +699,42 @@ export function Dashboard() {
 
                           {/* Protocol Positions */}
                           {protocol.portfolio_item_list.map((item) => (
-                            <div key={`${protocol.id}-${item.name}`} className="border rounded-lg p-4">
-                              <div className="inline-block bg-gray-100 text-sm px-2 py-0.5 rounded mb-3">
+                            <div key={`${protocol.id}-${item.name}`} className="border rounded-lg p-3 md:p-4">
+                              <div className="inline-block bg-gray-100 text-xs md:text-sm px-2 py-0.5 rounded mb-3">
                                 {item.name}
                               </div>
 
-                              <div className="grid grid-cols-3 gap-4">
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 text-sm">
                                 {/* Pool Column */}
                                 <div>
-                                  <div className="text-sm text-muted-foreground">Pool</div>
-                                  <div className="font-medium">
+                                  <div className="text-xs text-muted-foreground">Pool</div>
+                                  <div className="font-medium truncate">
                                     {item.detail.supply_token_list.map(token => token.optimized_symbol).join('+')}
                                   </div>
                                 </div>
 
                                 {/* Balance Column */}
                                 <div>
-                                  <div className="text-sm text-muted-foreground">Balance</div>
+                                  <div className="text-xs text-muted-foreground">Balance</div>
                                   <div className="font-medium">
                                     {item.detail.supply_token_list.map((token, i) => (
-                                      <div key={i}>
+                                      <div key={i} className="truncate">
                                         {formatNumber(token.amount)} {token.optimized_symbol}
                                       </div>
                                     ))}
                                   </div>
                                 </div>
 
-                                {/* Rewards Column */}
+                                {/* Rewards/Value Column */}
                                 {item.detail.reward_token_list && item.detail.reward_token_list.length > 0 ? (
-                                  <div>
-                                    <div className="text-sm text-muted-foreground">Rewards</div>
+                                  <div className="col-span-2 md:col-span-1">
+                                    <div className="text-xs text-muted-foreground">Rewards</div>
                                     <div className="font-medium">
                                       {item.detail.reward_token_list.map((token, i) => (
-                                        <div key={i}>
-                                          {formatNumber(token.amount)} {token.optimized_symbol}
+                                        <div key={i} className="flex items-center justify-between md:block">
+                                          <span className="truncate">
+                                            {formatNumber(token.amount)} {token.optimized_symbol}
+                                          </span>
                                           <span className="text-xs text-muted-foreground ml-1">
                                             (${formatUsdValue(token.amount * token.price)})
                                           </span>
@@ -741,8 +743,8 @@ export function Dashboard() {
                                     </div>
                                   </div>
                                 ) : (
-                                  <div>
-                                    <div className="text-sm text-muted-foreground">USD Value</div>
+                                  <div className="col-span-2 md:col-span-1">
+                                    <div className="text-xs text-muted-foreground">USD Value</div>
                                     <div className="font-medium">
                                       ${formatUsdValue(item.stats.net_usd_value)}
                                     </div>
@@ -754,7 +756,7 @@ export function Dashboard() {
                         </div>
                       ))
                     ) : (
-                      <div className="text-center text-muted-foreground">
+                      <div className="text-center text-muted-foreground text-sm">
                         {loading ? "Loading..." : error || "No portfolio data available"}
                       </div>
                     )}
