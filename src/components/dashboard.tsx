@@ -234,6 +234,14 @@ export function Dashboard() {
     return "Unnamed Transaction";
   };
 
+  const formatNumber = (num: number) => {
+    if (num === 0) return '0'
+    if (Math.abs(num) < 0.01) return '<0.01'
+    if (Math.abs(num) >= 1000000) return (num / 1000000).toFixed(2) + 'M'
+    if (Math.abs(num) >= 1000) return (num / 1000).toFixed(2) + 'K'
+    return num.toFixed(Math.abs(num) < 1 ? 4 : 2)
+  }
+
   if (loading) {
     return (
       <div className="space-y-8">
@@ -313,14 +321,6 @@ export function Dashboard() {
               const usdValue = token.price * token.amount
               const priceChange = token.price_24h_change || 0
               
-              const formatNumber = (num: number) => {
-                if (num === 0) return '0'
-                if (Math.abs(num) < 0.01) return '<0.01'
-                if (Math.abs(num) >= 1000000) return (num / 1000000).toFixed(2) + 'M'
-                if (Math.abs(num) >= 1000) return (num / 1000).toFixed(2) + 'K'
-                return num.toFixed(Math.abs(num) < 1 ? 4 : 2)
-              }
-
               return (
                 <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
                   <div className="flex items-center gap-2">
@@ -381,7 +381,7 @@ export function Dashboard() {
                   <Image
                     src={
                       tx.chain === 'base' && !tx.project_id
-                        ? '/baseicon.png'  // Show Base icon only for Base chain transactions with no project_id
+                        ? '/baseicon.png'
                         : tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
                           ? tx.project_dict[tx.project_id].logo_url
                           : tx.project_id?.includes('uniswap')
@@ -397,7 +397,7 @@ export function Dashboard() {
                     unoptimized
                   />
                   <div>
-                    <div className="font-medium">
+                    <div className="font-medium text-sm">
                       {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? (
                         tx.project_dict[tx.project_id].name
                       ) : (
@@ -408,19 +408,19 @@ export function Dashboard() {
                         {getTransactionName(tx, tx.cate_dict)}
                       </span>
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-xs text-muted-foreground">
                       {formatDistanceToNow(tx.time_at * 1000, { addSuffix: true })}
                     </div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
                     {tx.sends?.map((send, i) => {
                       const token = tx.token_dict?.[send.token_id]
                       const amount = Number(send.amount)
                       const usdValue = token?.price ? (token.price * amount) : 0
                       return (
-                        <div key={i} className="text-red-500 font-medium flex items-center justify-end gap-2">
+                        <div key={i} className="text-red-500 text-sm flex items-center justify-end gap-1">
                           {token?.logo_url && (
                             <Image
                               src={token.logo_url}
@@ -436,12 +436,16 @@ export function Dashboard() {
                               <>
                                 -{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
                                 #{token?.inner_id}
-                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                                <span className="text-xs text-muted-foreground ml-1">
+                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
+                                </span>
                               </>
                             ) : (
                               <>
-                                -{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
-                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                                -{formatNumber(amount)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                                <span className="text-xs text-muted-foreground ml-1">
+                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
+                                </span>
                               </>
                             )}
                           </span>
@@ -455,7 +459,7 @@ export function Dashboard() {
                       const amount = Number(receive.amount)
                       const usdValue = token?.price ? (token.price * amount) : 0
                       return (
-                        <div key={i} className="text-green-500 font-medium flex items-center justify-end gap-2">
+                        <div key={i} className="text-green-500 text-sm flex items-center justify-end gap-1">
                           {(token?.logo_url || receive.token_id === 'base') && (
                             <Image
                               src={token?.logo_url || '/eth.png'}
@@ -471,12 +475,16 @@ export function Dashboard() {
                               <>
                                 +{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
                                 #{token?.inner_id}
-                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                                <span className="text-xs text-muted-foreground ml-1">
+                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
+                                </span>
                               </>
                             ) : (
                               <>
-                                +{amount.toFixed(6)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
-                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                                +{formatNumber(amount)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
+                                <span className="text-xs text-muted-foreground ml-1">
+                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
+                                </span>
                               </>
                             )}
                           </span>
@@ -485,9 +493,9 @@ export function Dashboard() {
                     })}
                   </div>
                   {(tx.tx?.eth_gas_fee || tx.tx?.usd_gas_fee) && (
-                    <div className="text-sm text-muted-foreground mt-1">
-                      Gas: {tx.tx?.eth_gas_fee ? `${tx.tx.eth_gas_fee.toFixed(6)} ETH` : ''} 
-                      {tx.tx?.usd_gas_fee ? ` ($${tx.tx.usd_gas_fee.toFixed(2)})` : ''}
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Gas: {tx.tx?.eth_gas_fee ? `${formatNumber(tx.tx.eth_gas_fee)} ETH` : ''} 
+                      {tx.tx?.usd_gas_fee ? ` ($${formatUsdValue(tx.tx.usd_gas_fee)})` : ''}
                     </div>
                   )}
                 </div>
