@@ -181,25 +181,32 @@ export function Dashboard() {
       <Card className="p-6">
         <h2 className="text-2xl font-bold mb-4">Chain Balances</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {data.chain_list.map((chain) => (
-            <div key={chain.id} className="flex items-center space-x-3 p-4 border rounded-lg">
-              <Image
-                src={chain.logo_url}
-                alt={chain.name}
-                width={32}
-                height={32}
-                className="rounded-full"
-                unoptimized
-              />
-              <div>
-                <div className="font-medium">{chain.name}</div>
-                <div className="text-sm text-muted-foreground">
-                  ${formatUsdValue(chain.usd_value)}
+          {data.chain_list
+            .filter(chain => chain.usd_value > 0) // Only show chains with balance > 0
+            .map((chain) => (
+              <div key={chain.id} className="flex items-center space-x-3 p-4 border rounded-lg">
+                <Image
+                  src={chain.logo_url}
+                  alt={chain.name}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                  unoptimized
+                />
+                <div>
+                  <div className="font-medium">{chain.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    ${formatUsdValue(chain.usd_value)}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
+        {data.chain_list.filter(chain => chain.usd_value > 0).length === 0 && (
+          <div className="text-center text-muted-foreground py-4">
+            No chain balances found
+          </div>
+        )}
       </Card>
 
       {/* Recent Transactions */}
