@@ -85,6 +85,25 @@ interface DebankTxResponse {
   history_list: Transaction[]
 }
 
+interface TokenBalance {
+  id: string
+  chain: string
+  name: string
+  symbol: string
+  display_symbol: string | null
+  optimized_symbol: string
+  decimals: number
+  logo_url: string | null
+  protocol_id: string
+  price: number
+  is_verified: boolean
+  is_core: boolean
+  is_wallet: boolean
+  time_at: number
+  amount: number
+  raw_amount: number
+}
+
 type CategoryDict = {
   [key: string]: {
     id: string;
@@ -100,6 +119,7 @@ export function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [tokens, setTokens] = useState<TokenBalance[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,6 +170,18 @@ export function Dashboard() {
           project_dict: txData.project_dict || {},
           token_dict: txData.token_dict || {}
         })))
+        
+        // Fetch token list
+        const tokenRes = await fetch(
+          '/api/stats/debank?endpoint=user/token_list&id=0xddc23d34ea2f6920d15995607d00def9478ded6d&chain_id=base&is_all=true'
+        )
+        
+        if (!tokenRes.ok) {
+          throw new Error('Failed to fetch token data')
+        }
+        
+        const tokenData = await tokenRes.json()
+        setTokens(tokenData)
         
       } catch (err) {
         console.error('Error fetching data:', err)
@@ -271,6 +303,49 @@ export function Dashboard() {
         )}
       </Card>
 
+      {/* Assets */}
+      <Card className="p-6">
+        <h2 className="text-2xl font-bold mb-4">Assets</h2>
+        <div className="space-y-4">
+          {tokens
+            .sort((a, b) => (b.price * b.amount) - (a.price * a.amount)) // Sort by USD value
+            .slice(0, 20) // Take top 20
+            .map((token) => {
+              const usdValue = token.price * token.amount
+              return (
+                <div key={token.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Image
+                      src={token.symbol === 'mwcbBTC' ? '/cbtc.png' : (token.logo_url || '/placeholder.png')}
+                      alt={token.name}
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                      unoptimized
+                    />
+                    <div>
+                      <div className="font-medium">
+                        {token.name}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {token.amount.toFixed(6)} {token.optimized_symbol}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-medium">
+                      ${formatUsdValue(usdValue)}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      ${token.price.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+        </div>
+      </Card>
+
       {/* Recent Transactions */}
       <Card className="p-6">
         <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
@@ -286,13 +361,13 @@ export function Dashboard() {
                 <div className="flex items-center gap-3">
                   <Image
                     src={
-                      tx.cate_id === 'send' || tx.cate_id === 'receive'
-                        ? '/avatar2.png'
-                        : tx.project_id?.includes('uniswap')
-                          ? '/uni.png'
-                          : tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
-                            ? tx.project_dict[tx.project_id].logo_url
-                            : getProtocolImage(tx.project_id)
+                      tx.chain === 'base' && !tx.project_id
+                        ? '/baseicon.png'  // Show Base icon only for Base chain transactions with no project_id
+                        : tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
+                          ? tx.project_dict[tx.project_id].logo_url
+                          : tx.project_id?.includes('uniswap')
+                            ? '/uni.png'
+                            : getProtocolImage(tx.project_id) || '/avatar2.png'
                     }
                     alt={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
                       ? tx.project_dict[tx.project_id].name
@@ -307,7 +382,7 @@ export function Dashboard() {
                       {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? (
                         tx.project_dict[tx.project_id].name
                       ) : (
-                        tx.project_id?.replace('base_', '') || 'Unknown'
+                        tx.project_id?.replace('base_', '') || 'Transfer'
                       )}
                       {' - '}
                       <span className="text-gray-600">

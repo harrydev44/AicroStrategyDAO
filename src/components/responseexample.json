@@ -1,0 +1,898 @@
+{
+    "cate_dict": {
+        "approve": {
+            "id": "approve",
+            "name": "Authorize"
+        },
+        "receive": {
+            "id": "receive",
+            "name": "Receive"
+        },
+        "send": {
+            "id": "send",
+            "name": "Send"
+        }
+    },
+    "cex_dict": {},
+    "history_list": [
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x09737223c2488cd2358576901b10b6d9e7ab2f756526d401b26a6a6a014681fa",
+            "is_scam": false,
+            "other_addr": "0x040d5a4cd1caef89f04124c273811bd0f097b0ee",
+            "project_id": null,
+            "receives": [
+                {
+                    "amount": 50000,
+                    "from_addr": "0x040d5a4cd1caef89f04124c273811bd0f097b0ee",
+                    "token_id": "0x73326b4d0225c429bed050c11c4422d91470aaf4"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736602081,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x1c0bbac94ce02d5f1d3a6b907930666b0c31cdcfe7813565b43203270a3dc24a",
+            "is_scam": false,
+            "other_addr": "0xbcca84a3d13b083828dbcd200788fd4dcb7742e2",
+            "project_id": "base_uniswap2",
+            "receives": [
+                {
+                    "amount": 519922000,
+                    "from_addr": "0xbcca84a3d13b083828dbcd200788fd4dcb7742e2",
+                    "token_id": "0x5e05d96c9bbdcbc12eae6af3222b3c908d121f43"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736592387,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x1755bb4a87d8c213511e849c5e1201342f48bb954814c3c271d693f71c00892e",
+            "is_scam": false,
+            "other_addr": "0xbcca84a3d13b083828dbcd200788fd4dcb7742e2",
+            "project_id": "base_uniswap2",
+            "receives": [
+                {
+                    "amount": 519922000,
+                    "from_addr": "0xbcca84a3d13b083828dbcd200788fd4dcb7742e2",
+                    "token_id": "0x5e05d96c9bbdcbc12eae6af3222b3c908d121f43"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736592379,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": null,
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x7948968e8081dced4c9de77f29f2ce43f5582678d1694c5cd82c3e8371dd1472",
+            "is_scam": false,
+            "other_addr": "0x16613524e02ad97edfef371bc883f2f5d6c480a5",
+            "project_id": "base_aerodrome",
+            "receives": [],
+            "sends": [],
+            "time_at": 1736514753,
+            "token_approve": null,
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "32e535e3d584a7d5161035c95f054e16",
+                "message": null,
+                "name": "vote",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0x16613524e02ad97edfef371bc883f2f5d6c480a5",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": null,
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x3b536d5624a8392831c621a4ad4ed7f0bd0ae7147f18ddcba1135394931cf868",
+            "is_scam": false,
+            "other_addr": "0xa95ebefbcb77ae1daf0d2123784594f8cce90274",
+            "project_id": "base_aerodrome",
+            "receives": [],
+            "sends": [
+                {
+                    "amount": 0.001779762619099648,
+                    "to_addr": "0xa95ebefbcb77ae1daf0d2123784594f8cce90274",
+                    "token_id": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c"
+                }
+            ],
+            "time_at": 1736512851,
+            "token_approve": {
+                "spender": "0xa95ebefbcb77ae1daf0d2123784594f8cce90274",
+                "token_id": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c",
+                "value": 0
+            },
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "1bdeaeba5fabd4d085ec7aaef61e0b7b",
+                "message": null,
+                "name": "deposit",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0xa95ebefbcb77ae1daf0d2123784594f8cce90274",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": "approve",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x8d4f8087b5c99156cfb21ea5f36e780f37652bc458f3c5c36b9b770f4794dc34",
+            "is_scam": false,
+            "other_addr": "0xa95ebefbcb77ae1daf0d2123784594f8cce90274",
+            "project_id": "base_aerodrome",
+            "receives": [],
+            "sends": [],
+            "time_at": 1736512791,
+            "token_approve": {
+                "spender": "0xa95ebefbcb77ae1daf0d2123784594f8cce90274",
+                "token_id": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c",
+                "value": 0.001779762619099648
+            },
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "6a5e58b61b4b07ac98a0af2d9214a537",
+                "message": null,
+                "name": "approve",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": null,
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x398287976c98dc68bc0f85279cfb68104b7a8d37a98c3b3ed3e134f5bb09dfb3",
+            "is_scam": false,
+            "other_addr": "0xcf77a3ba9a5ca399b7c97c74d54e5b1beb874e43",
+            "project_id": "base_aerodrome",
+            "receives": [
+                {
+                    "amount": 0.001779762619099648,
+                    "from_addr": "0x0000000000000000000000000000000000000000",
+                    "token_id": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c"
+                }
+            ],
+            "sends": [
+                {
+                    "amount": 0.1309998,
+                    "to_addr": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c",
+                    "token_id": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf"
+                },
+                {
+                    "amount": 250078.5592515911,
+                    "to_addr": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c",
+                    "token_id": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979"
+                }
+            ],
+            "time_at": 1736512723,
+            "token_approve": {
+                "spender": "0xcf77a3ba9a5ca399b7c97c74d54e5b1beb874e43",
+                "token_id": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979",
+                "value": 9921.440748408908
+            },
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "600fa0444b09ebe9af22a47ff935840d",
+                "message": null,
+                "name": "addLiquidity",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0xcf77a3ba9a5ca399b7c97c74d54e5b1beb874e43",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0xf897b1180a7b030b373909baedce850a1899776d1aa648ad77c79f2f4b7914b5",
+            "is_scam": true,
+            "other_addr": "0x0442c65a16fdbecb48c9ef261ad566d0c45c7e55",
+            "project_id": "base_uniswap2",
+            "receives": [
+                {
+                    "amount": 5415440,
+                    "from_addr": "0x0442c65a16fdbecb48c9ef261ad566d0c45c7e55",
+                    "token_id": "0x96e8d10c4788ac4dd32c4f8c3259d175a9d96bba"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736512515,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": "approve",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0xd40527dfbf2d32c3b746e0322d6120b5a6029f965d46a1e3ff1399c5677a4bd2",
+            "is_scam": false,
+            "other_addr": "0xcf77a3ba9a5ca399b7c97c74d54e5b1beb874e43",
+            "project_id": "base_aerodrome",
+            "receives": [],
+            "sends": [],
+            "time_at": 1736512355,
+            "token_approve": {
+                "spender": "0xcf77a3ba9a5ca399b7c97c74d54e5b1beb874e43",
+                "token_id": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979",
+                "value": 260000
+            },
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "14f56673170106ccf271733c2f4784bf",
+                "message": null,
+                "name": "approve",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": "approve",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x87f2f26469a0ed734209daccdd5ae6ad170bc3a3aea77c9e329ff614415319d8",
+            "is_scam": false,
+            "other_addr": "0xcf77a3ba9a5ca399b7c97c74d54e5b1beb874e43",
+            "project_id": "base_aerodrome",
+            "receives": [],
+            "sends": [],
+            "time_at": 1736512073,
+            "token_approve": {
+                "spender": "0xcf77a3ba9a5ca399b7c97c74d54e5b1beb874e43",
+                "token_id": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+                "value": 0.13568284
+            },
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "9f711b690c8724d890d0f68f92f3ea6a",
+                "message": null,
+                "name": "approve",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0xf972fd7ddcb23c985853a0095a3f334ad4d80aa1ccf8af4da1cf5cae96c96664",
+            "is_scam": false,
+            "other_addr": "0x28aa4f9ffe21365473b64c161b566c3cdead0108",
+            "project_id": null,
+            "receives": [
+                {
+                    "amount": 334000,
+                    "from_addr": "0x28aa4f9ffe21365473b64c161b566c3cdead0108",
+                    "token_id": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736482195,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": null,
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x672984ca4e65ff0d4f3509666da790396b6ca99b38aedf906cf98fc1304c9625",
+            "is_scam": false,
+            "other_addr": "0xbddcf6ab290e7ad076ca103183730d1bf0661112",
+            "project_id": "base_openxswap_exchange",
+            "receives": [
+                {
+                    "amount": 1,
+                    "from_addr": "0x1094694b42e85a396835eeeceb26ab41dd7b0d2a",
+                    "token_id": "4b367278baf9fed4990e75e1126835d5"
+                },
+                {
+                    "amount": 4.0573e-14,
+                    "from_addr": "0x1094694b42e85a396835eeeceb26ab41dd7b0d2a",
+                    "token_id": "0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4"
+                }
+            ],
+            "sends": [
+                {
+                    "amount": 13047,
+                    "to_addr": "0x1094694b42e85a396835eeeceb26ab41dd7b0d2a",
+                    "token_id": "0x940181a94a35a4569e4529a3cdfb74e38fd98631"
+                }
+            ],
+            "time_at": 1736411475,
+            "token_approve": {
+                "spender": "0xbddcf6ab290e7ad076ca103183730d1bf0661112",
+                "token_id": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "value": 130.47
+            },
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "99f7876dcf72a3cfeb45541d27b0cdc2",
+                "message": null,
+                "name": "buyNFT",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0xbddcf6ab290e7ad076ca103183730d1bf0661112",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": "approve",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x2f550ab4de9e1c3a2c1368a0373a8b5ffe090e89a799f8d6bad3c49869e3abe6",
+            "is_scam": false,
+            "other_addr": "0xbddcf6ab290e7ad076ca103183730d1bf0661112",
+            "project_id": "base_openxswap_exchange",
+            "receives": [],
+            "sends": [],
+            "time_at": 1736410863,
+            "token_approve": {
+                "spender": "0xbddcf6ab290e7ad076ca103183730d1bf0661112",
+                "token_id": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "value": 13047
+            },
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "7c5e3e650468a5a157a3cd3fdb2e8bb7",
+                "message": null,
+                "name": "approve",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": null,
+            "cex_id": null,
+            "chain": "base",
+            "id": "0xd12f25d7c4880704098fe65e0e1b183d978d737c969216e435e3a7b7a0b9391c",
+            "is_scam": false,
+            "other_addr": "0x6131b5fae19ea4f9d964eac0408e4408b66337b5",
+            "project_id": "base_dmm_exchange",
+            "receives": [
+                {
+                    "amount": 13182.180012448187,
+                    "from_addr": "0x11ddd59c33c73c44733b4123a86ea5ce57f6e854",
+                    "token_id": "0x940181a94a35a4569e4529a3cdfb74e38fd98631"
+                }
+            ],
+            "sends": [
+                {
+                    "amount": 0.177,
+                    "to_addr": "0x11ddd59c33c73c44733b4123a86ea5ce57f6e854",
+                    "token_id": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf"
+                }
+            ],
+            "time_at": 1736408221,
+            "token_approve": null,
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "61eb8dd9d3fa8b31c12b338efa1795e8",
+                "message": null,
+                "name": "swap",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0x6131b5fae19ea4f9d964eac0408e4408b66337b5",
+                "trace_address": "0",
+                "value": 0
+            }
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x5fa1097740bb5207f4f9e739616fcb11dcce135426a19c56a11cced8e7c665ba",
+            "is_scam": true,
+            "other_addr": "0xb3bbd1b9fc2340de0350d1fe3016109cb80691f2",
+            "project_id": "base_uniswap2",
+            "receives": [
+                {
+                    "amount": 5522500,
+                    "from_addr": "0xb3bbd1b9fc2340de0350d1fe3016109cb80691f2",
+                    "token_id": "0x1781f8c4e23b5d9e724d978d6e8d20f2c94d6bf3"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736401627,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x96f04e65252e38752d13071255b946c982ed1fd8b6569e3903cca00e290d477b",
+            "is_scam": false,
+            "other_addr": "0x0000000000000000000000000000000000000000",
+            "project_id": null,
+            "receives": [
+                {
+                    "amount": 5347826.0869565215,
+                    "from_addr": "0x0000000000000000000000000000000000000000",
+                    "token_id": "0x3e64cd8fd4d2fae3d7f4710817885b0941838d0b"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736398517,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": "send",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x589f0ba2bfbb2dd5952642bbd9ef7e92f58ceae7b66e9e98f9d7b3119a29143b",
+            "is_scam": false,
+            "other_addr": "0xdda04ab22bd06ef490621eace04219798dd71bfd",
+            "project_id": null,
+            "receives": [],
+            "sends": [
+                {
+                    "amount": 0.369,
+                    "to_addr": "0xdda04ab22bd06ef490621eace04219798dd71bfd",
+                    "token_id": "base"
+                }
+            ],
+            "time_at": 1736382983,
+            "token_approve": null,
+            "tx": {
+                "from_addr": "0xddc23d34ea2f6920d15995607d00def9478ded6d",
+                "id": "fc6a9054e3aaef9a740299d3ea4a87d5",
+                "name": "",
+                "params": [],
+                "selector": "0x947fe812",
+                "status": 1,
+                "to_addr": "0xdda04ab22bd06ef490621eace04219798dd71bfd",
+                "trace_address": "0",
+                "value": 0.369
+            }
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0xb1cbde85932d43ded12e86b444a5d02fbafe1cbec713260b5f2c47f8e8d21267",
+            "is_scam": true,
+            "other_addr": "0x68eed2f4908f423566de228b992baa3e16e57da5",
+            "project_id": "base_uniswap2",
+            "receives": [
+                {
+                    "amount": 4467740,
+                    "from_addr": "0x68eed2f4908f423566de228b992baa3e16e57da5",
+                    "token_id": "0xd02708cc0c2d8ccdbd6a2795a288bd32e968946b"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736330671,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0xec579e6b95449c9f2cc8c48f95bfa4da8630c1cb895a0583c2dd1a707d06cc17",
+            "is_scam": true,
+            "other_addr": "0x085b0cf2dade8ba5d708a79479d9030f9bda5a8c",
+            "project_id": "base_uniswap2",
+            "receives": [
+                {
+                    "amount": 6177630,
+                    "from_addr": "0x085b0cf2dade8ba5d708a79479d9030f9bda5a8c",
+                    "token_id": "0x1c219051b3aa0651f60c16370c4d6037b42ccee2"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736250051,
+            "token_approve": null,
+            "tx": null
+        },
+        {
+            "cate_id": "receive",
+            "cex_id": null,
+            "chain": "base",
+            "id": "0x71d453fce9ed028a71260add9f79b86ea4b4c3063ee1a1ee4995820b6b9ee4f8",
+            "is_scam": true,
+            "other_addr": "0x4cbee014d8771a1b9b2d14b40f02df5de1f860db",
+            "project_id": "base_uniswap2",
+            "receives": [
+                {
+                    "amount": 42193854.93722974,
+                    "from_addr": "0x4cbee014d8771a1b9b2d14b40f02df5de1f860db",
+                    "token_id": "0x4834cad3a434a472a2229f58f97e9f8a6c288bfc"
+                }
+            ],
+            "sends": [],
+            "time_at": 1736169989,
+            "token_approve": null,
+            "tx": null
+        }
+    ],
+    "project_dict": {
+        "base_aerodrome": {
+            "chain": "base",
+            "id": "base_aerodrome",
+            "logo_url": "https://static.debank.com/image/project/logo_url/base_aerodrome/f02d753bc321dc8ba480f0424a686482.png",
+            "name": "Aerodrome",
+            "site_url": "https://aerodrome.finance/"
+        },
+        "base_dmm_exchange": {
+            "chain": "base",
+            "id": "base_dmm_exchange",
+            "logo_url": "https://static.debank.com/image/project/logo_url/bsc_dmm_exchange/62bd3271bf61c97fbb342203f47b2de1.png",
+            "name": "KyberSwap",
+            "site_url": "https://kyberswap.com"
+        },
+        "base_openxswap_exchange": {
+            "chain": "base",
+            "id": "base_openxswap_exchange",
+            "logo_url": "https://static.debank.com/image/project/logo_url/op_openxswap_exchange/dc39927c93d30afedd5c7f47b680a754.png",
+            "name": "OpenXSwap Exchange",
+            "site_url": "https://openxswap.exchange/"
+        },
+        "base_uniswap2": {
+            "chain": "base",
+            "id": "base_uniswap2",
+            "logo_url": "https://static.debank.com/image/project/logo_url/uniswap2/87a541b3b83b041c8d12119e5a0d19f0.png",
+            "name": "Uniswap V2",
+            "site_url": "https://app.uniswap.org"
+        }
+    },
+    "token_dict": {
+        "0x1781f8c4e23b5d9e724d978d6e8d20f2c94d6bf3": {
+            "chain": "base",
+            "credit_score": 47.88511665143545,
+            "decimals": 8,
+            "display_symbol": null,
+            "id": "0x1781f8c4e23b5d9e724d978d6e8d20f2c94d6bf3",
+            "is_core": false,
+            "is_scam": true,
+            "is_suspicious": false,
+            "is_verified": false,
+            "is_wallet": false,
+            "logo_url": null,
+            "name": "COOKIE",
+            "optimized_symbol": "COOKIE",
+            "price": 0,
+            "price_24h_change": null,
+            "protocol_id": "",
+            "symbol": "COOKIE",
+            "time_at": 1736342899
+        },
+        "0x1c219051b3aa0651f60c16370c4d6037b42ccee2": {
+            "chain": "base",
+            "credit_score": 70.95306158535249,
+            "decimals": 8,
+            "display_symbol": null,
+            "id": "0x1c219051b3aa0651f60c16370c4d6037b42ccee2",
+            "is_core": false,
+            "is_scam": true,
+            "is_suspicious": false,
+            "is_verified": false,
+            "is_wallet": false,
+            "logo_url": null,
+            "name": "REI",
+            "optimized_symbol": "REI",
+            "price": 0,
+            "price_24h_change": null,
+            "protocol_id": "",
+            "symbol": "REI",
+            "time_at": 1736227629
+        },
+        "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c": {
+            "chain": "base",
+            "credit_score": 1681.7229822677002,
+            "decimals": 18,
+            "display_symbol": null,
+            "id": "0x3d36cf85a0c275cf4894315a6c1d6c558d6d984c",
+            "is_core": null,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": null,
+            "logo_url": null,
+            "name": "Volatile AMM - fBOMB/cbBTC",
+            "optimized_symbol": "vAMM-fBOMB/cbBTC",
+            "price": 13866716.26922388,
+            "price_24h_change": null,
+            "protocol_id": "base_aerodrome",
+            "symbol": "vAMM-fBOMB/cbBTC",
+            "time_at": 1726213557
+        },
+        "0x3e64cd8fd4d2fae3d7f4710817885b0941838d0b": {
+            "chain": "base",
+            "credit_score": 15519.103935016505,
+            "decimals": 18,
+            "display_symbol": null,
+            "id": "0x3e64cd8fd4d2fae3d7f4710817885b0941838d0b",
+            "is_core": true,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": true,
+            "logo_url": "https://static.debank.com/image/base_token/logo_url/0x3e64cd8fd4d2fae3d7f4710817885b0941838d0b/36943cbdb36a45d0bd83aee582c73529.png",
+            "name": "3 Beras Capital",
+            "optimized_symbol": "3BC",
+            "price": 0.00396488975808299,
+            "price_24h_change": -0.12468942487467194,
+            "protocol_id": "",
+            "symbol": "3BC",
+            "time_at": 1736398517
+        },
+        "0x4834cad3a434a472a2229f58f97e9f8a6c288bfc": {
+            "chain": "base",
+            "credit_score": 136.75339731728272,
+            "decimals": 8,
+            "display_symbol": null,
+            "id": "0x4834cad3a434a472a2229f58f97e9f8a6c288bfc",
+            "is_core": false,
+            "is_scam": true,
+            "is_suspicious": false,
+            "is_verified": false,
+            "is_wallet": false,
+            "logo_url": null,
+            "name": "Unit 31 - DICKBUTT",
+            "optimized_symbol": "UNITDICKBUTT",
+            "price": 0.00005045481708891171,
+            "price_24h_change": null,
+            "protocol_id": "",
+            "symbol": "UNITDICKBUTT",
+            "time_at": 1736167363
+        },
+        "0x5e05d96c9bbdcbc12eae6af3222b3c908d121f43": {
+            "chain": "base",
+            "credit_score": 1282.8298198775542,
+            "decimals": 8,
+            "display_symbol": null,
+            "id": "0x5e05d96c9bbdcbc12eae6af3222b3c908d121f43",
+            "is_core": null,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": null,
+            "is_wallet": null,
+            "logo_url": null,
+            "name": "FAI",
+            "optimized_symbol": "FAI",
+            "price": 0.00006484659258894133,
+            "price_24h_change": null,
+            "protocol_id": "",
+            "symbol": "FAI",
+            "time_at": 1736564803
+        },
+        "0x73326b4d0225c429bed050c11c4422d91470aaf4": {
+            "chain": "base",
+            "credit_score": 7660.957358234756,
+            "decimals": 18,
+            "display_symbol": "DACKIE (Superchain)",
+            "id": "0x73326b4d0225c429bed050c11c4422d91470aaf4",
+            "is_core": true,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": true,
+            "logo_url": "https://static.debank.com/image/base_token/logo_url/0x73326b4d0225c429bed050c11c4422d91470aaf4/ad20d5c24897f798395f9d5b35503ff5.png",
+            "name": "DACKIE Superchain",
+            "optimized_symbol": "DACKIE (Superchain)",
+            "price": 0.020314589382677776,
+            "price_24h_change": 0.03125523180175529,
+            "protocol_id": "",
+            "symbol": "DACKIE",
+            "time_at": 1734667045
+        },
+        "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979": {
+            "chain": "base",
+            "credit_score": 19086.816648078544,
+            "decimals": 18,
+            "display_symbol": null,
+            "id": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979",
+            "is_core": true,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": true,
+            "logo_url": "https://static.debank.com/image/base_token/logo_url/0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979/1a2556a9965b8afa4f97b6fdf5029f1e.png",
+            "name": "Fantom Bomb",
+            "optimized_symbol": "fBOMB",
+            "price": 0.050161697907324526,
+            "price_24h_change": 0.013921278878271897,
+            "protocol_id": "",
+            "symbol": "fBOMB",
+            "time_at": 1691002561
+        },
+        "0x940181a94a35a4569e4529a3cdfb74e38fd98631": {
+            "chain": "base",
+            "credit_score": 7899107.204060136,
+            "decimals": 18,
+            "display_symbol": null,
+            "id": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+            "is_core": true,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": true,
+            "logo_url": "https://static.debank.com/image/base_token/logo_url/0x940181a94a35a4569e4529a3cdfb74e38fd98631/bb455b8557be5d08ad67f4314f899e15.png",
+            "name": "Aerodrome",
+            "optimized_symbol": "AERO",
+            "price": 1.100986358508553,
+            "price_24h_change": -0.041647584847720326,
+            "protocol_id": "base_aerodrome3",
+            "symbol": "AERO",
+            "time_at": 1693190447
+        },
+        "0x96e8d10c4788ac4dd32c4f8c3259d175a9d96bba": {
+            "chain": "base",
+            "credit_score": 143.6927990785631,
+            "decimals": 8,
+            "display_symbol": null,
+            "id": "0x96e8d10c4788ac4dd32c4f8c3259d175a9d96bba",
+            "is_core": false,
+            "is_scam": true,
+            "is_suspicious": false,
+            "is_verified": false,
+            "is_wallet": false,
+            "logo_url": null,
+            "name": "AKUMA",
+            "optimized_symbol": "AKUMA",
+            "price": 0.0000566815234984972,
+            "price_24h_change": null,
+            "protocol_id": "",
+            "symbol": "AKUMA",
+            "time_at": 1736491989
+        },
+        "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": {
+            "chain": "base",
+            "credit_score": 10208475.137891876,
+            "decimals": 8,
+            "display_symbol": null,
+            "id": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+            "is_core": true,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": true,
+            "logo_url": "https://static.debank.com/image/base_token/logo_url/0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf/a4ae837a6ca2fc45f07a74898cc4ba45.png",
+            "name": "Coinbase Wrapped BTC",
+            "optimized_symbol": "cbBTC",
+            "price": 94589.3696924982,
+            "price_24h_change": 0.009807143259018953,
+            "protocol_id": "",
+            "symbol": "cbBTC",
+            "time_at": 1724165535
+        },
+        "0xd02708cc0c2d8ccdbd6a2795a288bd32e968946b": {
+            "chain": "base",
+            "credit_score": 118.32239196949025,
+            "decimals": 8,
+            "display_symbol": null,
+            "id": "0xd02708cc0c2d8ccdbd6a2795a288bd32e968946b",
+            "is_core": false,
+            "is_scam": true,
+            "is_suspicious": false,
+            "is_verified": false,
+            "is_wallet": false,
+            "logo_url": null,
+            "name": "KUDAI",
+            "optimized_symbol": "KUDAI",
+            "price": 0,
+            "price_24h_change": null,
+            "protocol_id": "",
+            "symbol": "KUDAI",
+            "time_at": 1736313309
+        },
+        "0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4": {
+            "chain": "base",
+            "credit_score": 383627.86501591175,
+            "decimals": 18,
+            "display_symbol": null,
+            "id": "0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4",
+            "is_core": null,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": null,
+            "logo_url": null,
+            "name": "veNFT",
+            "optimized_symbol": "veNFT",
+            "price": 0,
+            "price_24h_change": null,
+            "protocol_id": "base_aerodrome",
+            "symbol": "veNFT",
+            "time_at": 1693190515
+        },
+        "4b367278baf9fed4990e75e1126835d5": {
+            "attributes": [],
+            "chain": "base",
+            "collection": {
+                "chain": "base",
+                "credit_score": 496439.48818868713,
+                "description": null,
+                "floor_price": 0,
+                "id": "base:0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4",
+                "is_core": false,
+                "is_scam": false,
+                "is_suspicious": false,
+                "is_verified": true,
+                "logo_url": "",
+                "name": "veNFT"
+            },
+            "collection_id": "base:0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4",
+            "content": "",
+            "content_type": null,
+            "contract_id": "0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4",
+            "description": null,
+            "detail_url": "https://opensea.io/assets/0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4/40573",
+            "id": "4b367278baf9fed4990e75e1126835d5",
+            "inner_id": "40573",
+            "is_erc1155": false,
+            "is_erc721": true,
+            "name": "#40573",
+            "pay_token": null,
+            "symbol": "veNFT",
+            "thumbnail_url": "",
+            "total_supply": 1
+        },
+        "base": {
+            "chain": "base",
+            "credit_score": 100000000,
+            "decimals": 18,
+            "display_symbol": null,
+            "id": "base",
+            "is_core": true,
+            "is_scam": false,
+            "is_suspicious": false,
+            "is_verified": true,
+            "is_wallet": true,
+            "logo_url": "https://static.debank.com/image/coin/logo_url/eth/6443cdccced33e204d90cb723c632917.png",
+            "name": "ETH",
+            "optimized_symbol": "ETH",
+            "price": 3272.05,
+            "price_24h_change": 0.006827146136001304,
+            "protocol_id": "",
+            "symbol": "ETH",
+            "time_at": null
+        }
+    }
+}
