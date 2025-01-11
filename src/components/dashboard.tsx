@@ -69,6 +69,10 @@ interface Transaction {
     token_id: string
     value: number
   }
+  project_dict?: Record<string, {
+    logo_url: string
+    name: string
+  }>
 }
 
 interface DebankResponse {
@@ -134,28 +138,9 @@ export function Dashboard() {
         }
         
         setTransactions(txData.history_list.map((tx: any) => ({
-          cate_id: tx.cate_id || '',
-          chain: tx.chain || '',
-          time_at: tx.time_at || Date.now() / 1000,
-          project_id: tx.project_id,
-          protocol_id: tx.protocol_id,
-          protocol: tx.protocol || null,
-          sends: tx.sends?.map((send: any) => ({
-            amount: Number(send.amount),
-            token_id: send.token_id,
-          })) || [],
-          receives: tx.receives?.map((receive: any) => ({
-            amount: Number(receive.amount),
-            token_id: receive.token_id,
-          })) || [],
-          token_dict: txData.token_dict || {},
-          tx: {
-            name: tx.tx?.name || 'Unknown Transaction',
-            status: tx.tx?.status || 0,
-            usd_gas_fee: tx.tx?.usd_gas_fee || 0,
-            gas_price_level: tx.tx?.gas_price_level,
-            eth_gas_fee: tx.tx?.eth_gas_fee || 0
-          }
+          ...tx,
+          project_dict: txData.project_dict || {},
+          token_dict: txData.token_dict || {}
         })))
         
       } catch (err) {
@@ -266,13 +251,17 @@ export function Dashboard() {
         <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
         <div className="space-y-4">
           {transactions
-            .filter(tx => !tx.is_scam && !tx.token_dict?.[tx.token_approve?.token_id]?.is_scam)
+            .filter(tx => {
+                const tokenId = tx.token_approve?.token_id;
+                const tokenDict = tx.token_dict ?? {};
+                return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
+            })
             .map((tx) => (
               <div key={tx.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                 <div className="flex items-center gap-3">
                   <Image
-                    src={getProtocolImage(tx.project_id)}
-                    alt={tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
+                    src={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? tx.project_dict[tx.project_id].logo_url : getProtocolImage(tx.project_id)}
+                    alt={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? tx.project_dict[tx.project_id].name : tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
                     width={24}
                     height={24}
                     className="rounded-full"
@@ -280,9 +269,11 @@ export function Dashboard() {
                   />
                   <div>
                     <div className="font-medium">
-                      {tx.project_id?.replace('base_', '') || 'Unknown'} 
+                      {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? tx.project_dict[tx.project_id].name : tx.project_id?.replace('base_', '') || 'Unknown'}
                       {' - '}
-                      <span className="text-gray-600">{tx.tx.name}</span>
+                      <span className="text-gray-600">
+                        {tx.tx?.name || (tx.cate_id === 'receive' ? 'Receive' : 'Unnamed Transaction')}
+                      </span>
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {formatDistanceToNow(tx.time_at * 1000, { addSuffix: true })}
@@ -290,51 +281,78 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="text-right">
-                  {(!tx.sends?.length && !tx.receives?.length) && (
-                    <div className="font-medium">0</div>
-                  )}
                   <div className="space-y-1">
                     {tx.sends?.map((send, i) => {
                       const token = tx.token_dict?.[send.token_id]
                       const amount = Number(send.amount)
+                      const usdValue = token?.price ? (token.price * amount) : 0
                       return (
-                        <div key={i} className="text-red-500 font-medium">
-                          {token?.is_erc721 ? (
-                            <>
-                              -{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
-                              #{token?.inner_id}
-                              {token?.price ? ` ($${(token.price * amount).toFixed(2)})` : ''}
-                            </>
-                          ) : (
-                            <>
-                              -{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
-                              {token?.name && ` (${token.name})`}
-                              {token?.price ? ` ($${(token.price * amount).toFixed(2)})` : ''}
-                            </>
+                        <div key={i} className="text-red-500 font-medium flex items-center justify-end gap-2">
+                          {token?.logo_url && (
+                            <Image
+                              src={token.logo_url}
+                              alt={token.symbol}
+                              width={16}
+                              height={16}
+                              className="rounded-full"
+                              unoptimized
+                            />
                           )}
+                          <span>
+                            {token?.is_erc721 ? (
+                              <>
+                                -{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
+                                #{token?.inner_id}
+                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                              </>
+                            ) : (
+                              <>
+                                -{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                              </>
+                            )}
+                          </span>
                         </div>
                       )
                     })}
                     {tx.receives?.map((receive, i) => {
                       const token = tx.token_dict?.[receive.token_id]
                       const amount = Number(receive.amount)
+                      const usdValue = token?.price ? (token.price * amount) : 0
                       return (
-                        <div key={i} className="text-green-500 font-medium">
-                          {amount ? (
-                            <>
-                              +{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
-                              {token?.name && ` (${token.name})`}
-                              {token?.price ? ` ($${(token.price * amount).toFixed(2)})` : ''}
-                            </>
-                          ) : '0'}
+                        <div key={i} className="text-green-500 font-medium flex items-center justify-end gap-2">
+                          {token?.logo_url && (
+                            <Image
+                              src={token.logo_url}
+                              alt={token.symbol}
+                              width={16}
+                              height={16}
+                              className="rounded-full"
+                              unoptimized
+                            />
+                          )}
+                          <span>
+                            {token?.is_erc721 ? (
+                              <>
+                                +{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
+                                #{token?.inner_id}
+                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                              </>
+                            ) : (
+                              <>
+                                +{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                                {usdValue > 0 && ` ($${usdValue.toFixed(2)})`}
+                              </>
+                            )}
+                          </span>
                         </div>
                       )
                     })}
                   </div>
-                  {(tx.tx.eth_gas_fee || tx.tx.usd_gas_fee) && (
+                  {(tx.tx?.eth_gas_fee || tx.tx?.usd_gas_fee) && (
                     <div className="text-sm text-muted-foreground mt-1">
-                      Gas: {tx.tx.eth_gas_fee ? `${tx.tx.eth_gas_fee.toFixed(6)} ETH` : ''} 
-                      {tx.tx.usd_gas_fee ? ` ($${tx.tx.usd_gas_fee.toFixed(2)})` : ''}
+                      Gas: {tx.tx?.eth_gas_fee ? `${tx.tx.eth_gas_fee.toFixed(6)} ETH` : ''} 
+                      {tx.tx?.usd_gas_fee ? ` ($${tx.tx.usd_gas_fee.toFixed(2)})` : ''}
                     </div>
                   )}
                 </div>
