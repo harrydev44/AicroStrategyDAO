@@ -674,7 +674,7 @@ export function Dashboard() {
 
                 {/* Right column - Assets */}
                 <div className="space-y-4">
-                  <h2 className="text-xl md:text-2xl font-bold mb-4">Assets</h2>
+                  <h2 className="text-xl md:text-2xl font-bold mb-4">Protocol</h2>
                   <div className="space-y-4">
                     {portfolioData && portfolioData.length > 0 ? (
                       portfolioData.map((protocol) => (
@@ -765,18 +765,19 @@ export function Dashboard() {
               </div>
             </Card>
 
-            <Card className="p-6">
-              <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
-              <div className="space-y-4">
+            <Card className="p-4 md:p-6">
+              <h2 className="text-xl md:text-2xl font-bold mb-4">Recent Transactions</h2>
+              <div className="space-y-2 md:space-y-4">
                 {transactions
                   .filter(tx => {
-                      const tokenId = tx.token_approve?.token_id;
-                      const tokenDict = tx.token_dict ?? {};
-                      return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
+                    const tokenId = tx.token_approve?.token_id;
+                    const tokenDict = tx.token_dict ?? {};
+                    return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
                   })
                   .map((tx) => (
-                    <div key={tx.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50 h-14">
-                      <div className="flex items-center gap-2">
+                    <div key={tx.id} className="flex items-start md:items-center gap-3 p-2 md:p-3 border rounded-lg hover:bg-gray-50">
+                      {/* Left side - Icon and basic info */}
+                      <div className="flex items-center gap-2 min-w-0 flex-[1.2]">
                         <Image
                           src={
                             tx.chain === 'base' && !tx.project_id
@@ -792,17 +793,17 @@ export function Dashboard() {
                             : tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
                           width={24}
                           height={24}
-                          className="rounded-full"
+                          className="rounded-full shrink-0"
                           unoptimized
                         />
-                        <div>
-                          <div className="flex items-center gap-1 text-sm">
-                            <span className="font-medium">
+                        <div className="min-w-0">
+                          <div className="flex flex-col md:flex-row md:items-center gap-0 md:gap-1">
+                            <span className="font-medium text-sm truncate max-w-[120px]">
                               {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
                                 ? tx.project_dict[tx.project_id].name
                                 : tx.project_id?.replace('base_', '') || 'Transfer'}
                             </span>
-                            <span className="text-gray-600">
+                            <span className="text-gray-600 text-sm">
                               {getTransactionName(tx, tx.cate_dict)}
                             </span>
                           </div>
@@ -811,14 +812,16 @@ export function Dashboard() {
                           </div>
                         </div>
                       </div>
-                      <div className="text-right flex flex-col items-end justify-center">
-                        <div className="flex flex-wrap justify-end gap-2">
+
+                      {/* Right side - Transaction details */}
+                      <div className="text-right flex flex-col items-end justify-center gap-1 flex-[0.8] min-w-[180px]">
+                        <div className="flex flex-col items-end gap-1 w-full">
                           {tx.sends?.map((send, i) => {
                             const token = tx.token_dict?.[send.token_id]
                             const amount = Number(send.amount)
                             const usdValue = token?.price ? (token.price * amount) : 0
                             return (
-                              <div key={i} className="text-red-500 text-xs flex items-center gap-1">
+                              <div key={i} className="text-red-500 text-xs flex items-center justify-end gap-1 w-full">
                                 {token?.logo_url && (
                                   <Image
                                     src={token.logo_url}
@@ -829,23 +832,28 @@ export function Dashboard() {
                                     unoptimized
                                   />
                                 )}
-                                <span>
-                                  -{formatNumber(amount)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
-                                  <span className="text-[10px] text-muted-foreground ml-1">
-                                    ${formatUsdValue(usdValue)}
+                                <div className="flex items-center gap-1 overflow-hidden">
+                                  <span className="whitespace-nowrap">
+                                    -{formatNumber(amount)}
                                   </span>
+                                  <span className="truncate max-w-[80px]">
+                                    {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                                  </span>
+                                </div>
+                                <span className="text-[10px] text-muted-foreground whitespace-nowrap shrink-0">
+                                  ${formatUsdValue(usdValue)}
                                 </span>
                               </div>
                             )
                           })}
-                          {tx.receives?.map((receive: { amount: number; token_id: string; from_addr?: string }, i) => {
+                          {tx.receives?.map((receive, i) => {
                             const token = receive.token_id === 'base'
                               ? tx.token_dict?.['base']
                               : tx.token_dict?.[receive.token_id]
                             const amount = Number(receive.amount)
                             const usdValue = token?.price ? (token.price * amount) : 0
                             return (
-                              <div key={i} className="text-green-500 text-xs flex items-center gap-1">
+                              <div key={i} className="text-green-500 text-xs flex items-center justify-end gap-1 w-full">
                                 {(token?.logo_url || receive.token_id === 'base') && (
                                   <Image
                                     src={token?.logo_url || '/eth.png'}
@@ -856,18 +864,23 @@ export function Dashboard() {
                                     unoptimized
                                   />
                                 )}
-                                <span>
-                                  +{formatNumber(amount)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
-                                  <span className="text-[10px] text-muted-foreground ml-1">
-                                    ${formatUsdValue(usdValue)}
+                                <div className="flex items-center gap-1 overflow-hidden">
+                                  <span className="whitespace-nowrap">
+                                    +{formatNumber(amount)}
                                   </span>
+                                  <span className="truncate max-w-[80px]">
+                                    {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
+                                  </span>
+                                </div>
+                                <span className="text-[10px] text-muted-foreground whitespace-nowrap shrink-0">
+                                  ${formatUsdValue(usdValue)}
                                 </span>
                               </div>
                             )
                           })}
                         </div>
                         {(tx.tx?.eth_gas_fee || tx.tx?.usd_gas_fee) && (
-                          <div className="text-[10px] text-muted-foreground mt-0.5">
+                          <div className="text-[10px] text-muted-foreground whitespace-nowrap">
                             Gas: {tx.tx?.eth_gas_fee ? `${formatNumber(tx.tx.eth_gas_fee)} ETH` : ''} 
                             {tx.tx?.usd_gas_fee ? ` ($${formatUsdValue(tx.tx.usd_gas_fee)})` : ''}
                           </div>
