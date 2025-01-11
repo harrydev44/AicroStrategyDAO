@@ -685,7 +685,7 @@ export function Dashboard() {
                     {portfolioData && portfolioData.length > 0 ? (
                       portfolioData.map((protocol) => (
                         <div key={protocol.id} className="space-y-4">
-                          {/* Protocol Header */}
+                          {/* Protocol Header with Total Value */}
                           <div className="flex items-center gap-2">
                             <Image
                               src={protocol.logo_url}
@@ -704,16 +704,21 @@ export function Dashboard() {
                           {/* Protocol Positions */}
                           {protocol.portfolio_item_list.map((item) => (
                             <div key={item.name} className="border rounded-lg p-4">
-                              {item.name !== "Yield" && (
-                                <div className="text-sm font-medium mb-2">{item.name}</div>
-                              )}
+                              {/* Show badge for position type (Yield/Farming/Locked) */}
+                              <div className="inline-block bg-gray-100 text-sm px-2 py-0.5 rounded mb-3">
+                                {item.name}
+                              </div>
+
                               <div className="grid grid-cols-3 gap-4">
+                                {/* Pool Column */}
                                 <div>
                                   <div className="text-sm text-muted-foreground">Pool</div>
                                   <div className="font-medium">
                                     {item.detail.supply_token_list.map(token => token.optimized_symbol).join('+')}
                                   </div>
                                 </div>
+
+                                {/* Balance Column */}
                                 <div>
                                   <div className="text-sm text-muted-foreground">Balance</div>
                                   <div className="font-medium">
@@ -724,6 +729,8 @@ export function Dashboard() {
                                     ))}
                                   </div>
                                 </div>
+
+                                {/* Rewards Column (only show if rewards exist) */}
                                 {item.detail.reward_token_list && (
                                   <div>
                                     <div className="text-sm text-muted-foreground">Rewards</div>
@@ -734,6 +741,16 @@ export function Dashboard() {
                                           (${formatUsdValue(token.amount * token.price)})
                                         </div>
                                       ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* USD Value Column (if not showing rewards) */}
+                                {!item.detail.reward_token_list && (
+                                  <div>
+                                    <div className="text-sm text-muted-foreground">USD Value</div>
+                                    <div className="font-medium">
+                                      ${formatUsdValue(item.stats.net_usd_value)}
                                     </div>
                                   </div>
                                 )}
