@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
+import { getProtocolImage } from '@/utils/protocol-images'
 
 interface ChainBalance {
   id: string
@@ -19,32 +20,43 @@ interface Protocol {
   chain: string
 }
 
+interface DecodedTx {
+  from_addr: string
+  id: string
+  name: string
+  status: number
+  to_addr: string
+  value: number
+  eth_gas_fee?: number
+  usd_gas_fee?: number
+}
+
 interface Transaction {
-  cate_id: string
+  cate_id: string | null
   chain: string
+  id: string
+  is_scam: boolean
+  project_id: string | null
   time_at: number
+  other_addr?: string
   sends?: Array<{
     amount: number
     token_id: string
+    to_addr?: string
   }>
   receives?: Array<{
     amount: number
     token_id: string
+    from_addr?: string
   }>
-  tx: {
-    name: string
-    status: number
-    usd_gas_fee: number
-  }
-  project_id: string | null
-  protocol?: Protocol
-  other_addr?: string
+  tx: DecodedTx
   token_dict?: Record<string, {
     symbol: string
-    decimals: number
-    price: number
     name: string
+    decimals: number
     logo_url: string
+    price: number
+    optimized_symbol?: string
   }>
 }
 
@@ -115,20 +127,23 @@ export function Dashboard() {
           chain: tx.chain || '',
           time_at: tx.time_at || Date.now() / 1000,
           project_id: tx.project_id,
+          protocol_id: tx.protocol_id,
           protocol: tx.protocol || null,
           sends: tx.sends?.map((send: any) => ({
-            amount: send.amount,
+            amount: Number(send.amount),
             token_id: send.token_id,
           })) || [],
           receives: tx.receives?.map((receive: any) => ({
-            amount: receive.amount,
+            amount: Number(receive.amount),
             token_id: receive.token_id,
           })) || [],
-          token_dict: tx.token_dict || {},
+          token_dict: txData.token_dict || {},
           tx: {
             name: tx.tx?.name || 'Unknown Transaction',
             status: tx.tx?.status || 0,
-            usd_gas_fee: typeof tx.tx?.usd_gas_fee === 'number' ? tx.tx.usd_gas_fee : 0
+            usd_gas_fee: tx.tx?.usd_gas_fee || 0,
+            gas_price_level: tx.tx?.gas_price_level,
+            eth_gas_fee: tx.tx?.eth_gas_fee || 0
           }
         })))
         
@@ -240,25 +255,23 @@ export function Dashboard() {
         <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
         <div className="space-y-4">
           {transactions
-            .filter(tx => !tx.cate_id?.includes('scam')) // Filter out scam transactions
+            .filter(tx => !tx.is_scam)
             .map((tx) => (
-              <div key={tx.time_at} className="flex items-center justify-between p-4 border rounded-lg">
+              <div key={tx.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                 <div className="flex items-center gap-3">
-                  {tx.protocol?.logo_url && (
-                    <Image
-                      src={tx.protocol.logo_url}
-                      alt={tx.protocol.name}
-                      width={24}
-                      height={24}
-                      className="rounded-full"
-                      unoptimized
-                    />
-                  )}
+                  <Image
+                    src={getProtocolImage(tx.project_id)}
+                    alt={tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
+                    width={24}
+                    height={24}
+                    className="rounded-full"
+                    unoptimized
+                  />
                   <div>
                     <div className="font-medium">
-                      {tx.protocol?.name || tx.project_id || 'Unknown Protocol'}
+                      {tx.project_id?.replace('base_', '') || 'Unknown'} 
                       {' - '}
-                      {tx.tx.name}
+                      <span className="text-gray-600">{tx.tx.name}</span>
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {formatDistanceToNow(tx.time_at * 1000, { addSuffix: true })}
@@ -266,21 +279,47 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-medium">
-                    {tx.sends?.map((send, i) => (
-                      <div key={i} className="text-red-500">
-                        -{send.amount} {tx.token_dict?.[send.token_id]?.symbol || 'tokens'}
-                      </div>
-                    ))}
-                    {tx.receives?.map((receive, i) => (
-                      <div key={i} className="text-green-500">
-                        +{receive.amount} {tx.token_dict?.[receive.token_id]?.symbol || 'tokens'}
-                      </div>
-                    ))}
+                  {(!tx.sends?.length && !tx.receives?.length) && (
+                    <div className="font-medium">0</div>
+                  )}
+                  <div className="space-y-1">
+                    {tx.sends?.map((send, i) => {
+                      const token = tx.token_dict?.[send.token_id]
+                      const amount = Number(send.amount)
+                      return (
+                        <div key={i} className="text-red-500 font-medium">
+                          {amount ? (
+                            <>
+                              -{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                              {token?.name && ` (${token.name})`}
+                              {token?.price ? ` ($${(token.price * amount).toFixed(2)})` : ''}
+                            </>
+                          ) : '0'}
+                        </div>
+                      )
+                    })}
+                    {tx.receives?.map((receive, i) => {
+                      const token = tx.token_dict?.[receive.token_id]
+                      const amount = Number(receive.amount)
+                      return (
+                        <div key={i} className="text-green-500 font-medium">
+                          {amount ? (
+                            <>
+                              +{amount.toFixed(6)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                              {token?.name && ` (${token.name})`}
+                              {token?.price ? ` ($${(token.price * amount).toFixed(2)})` : ''}
+                            </>
+                          ) : '0'}
+                        </div>
+                      )
+                    })}
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    Gas: ${formatUsdValue(tx.tx.usd_gas_fee)}
-                  </div>
+                  {(tx.tx.eth_gas_fee || tx.tx.usd_gas_fee) && (
+                    <div className="text-sm text-muted-foreground mt-1">
+                      Gas: {tx.tx.eth_gas_fee ? `${tx.tx.eth_gas_fee.toFixed(6)} ETH` : ''} 
+                      {tx.tx.usd_gas_fee ? ` ($${tx.tx.usd_gas_fee.toFixed(2)})` : ''}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
