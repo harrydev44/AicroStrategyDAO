@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { API_KEYS } from '@/config/api'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -16,7 +17,7 @@ export async function GET(request: Request) {
     const response = await fetch(url, {
       headers: {
         'Accept': 'application/json',
-        'AccessKey': 'apikey',
+        'AccessKey': API_KEYS.DEBANK,
       },
     })
 

@@ -74,19 +74,16 @@ export default function Home() {
                 target="_blank">
                 Twitter
               </Link>
+
+              <Link href="/stats" className="text-muted-foreground hover:text-primary">
+                Stats
+              </Link>
             </nav>
           </div>
         </div>
       </header>
 
       <main className="flex-1 pt-24">
-        {/* Add the Dashboard section before the Hero section */}
-        <AnimatedSection className="py-24 bg-white">
-          <div className="container mx-auto max-w-7xl px-4">
-            <Dashboard />
-          </div>
-        </AnimatedSection>
-
         {/* Hero Section */}
         <AnimatedSection className="relative min-h-[90vh] flex items-center bg-white">
           <div className="container relative z-10 mx-auto max-w-7xl px-4">

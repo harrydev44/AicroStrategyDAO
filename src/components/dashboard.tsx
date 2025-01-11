@@ -55,7 +55,7 @@ export function Dashboard() {
         setLoading(true)
         // Fetch total balance through proxy
         const balanceRes = await fetch(
-          '/api/debank?endpoint=user/total_balance&id=0xddc23d34ea2f6920d15995607d00def9478ded6d'
+          '/api/stats/debank?endpoint=user/total_balance&id=0xddc23d34ea2f6920d15995607d00def9478ded6d'
         )
         
         const balanceData = await balanceRes.json()
@@ -78,7 +78,7 @@ export function Dashboard() {
 
         // Fetch transaction history through proxy
         const txRes = await fetch(
-          '/api/debank?endpoint=user/history_list&id=0xddc23d34ea2f6920d15995607d00def9478ded6d&chain_id=base&page_count=20'
+          '/api/stats/debank?endpoint=user/history_list&id=0xddc23d34ea2f6920d15995607d00def9478ded6d&chain_id=base&page_count=20'
         )
         
         if (!txRes.ok) {
