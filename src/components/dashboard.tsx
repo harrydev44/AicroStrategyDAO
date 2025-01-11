@@ -277,18 +277,18 @@ export function Dashboard() {
             .filter(chain => chain.usd_value > 0) // Only show chains with balance > 0
             .sort((a, b) => b.usd_value - a.usd_value) // Sort by value, highest first
             .map((chain) => (
-              <div key={chain.id} className="flex items-center space-x-3 p-4 border rounded-lg">
+              <div key={chain.id} className="flex items-center space-x-2 p-2 border rounded-lg">
                 <Image
                   src={chain.logo_url}
                   alt={chain.name}
-                  width={32}
-                  height={32}
+                  width={24}
+                  height={24}
                   className="rounded-full"
                   unoptimized
                 />
                 <div>
-                  <div className="font-medium">{chain.name}</div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="font-medium text-sm">{chain.name}</div>
+                  <div className="text-xs text-muted-foreground">
                     ${formatUsdValue(chain.usd_value)}
                   </div>
                 </div>
@@ -322,42 +322,33 @@ export function Dashboard() {
               }
 
               return (
-                <div key={token.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
-                  <div className="flex items-center gap-3">
+                <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
+                  <div className="flex items-center gap-2">
                     <Image
                       src={token.symbol === 'mwcbBTC' ? '/cbtc.png' : (token.logo_url || '/placeholder.png')}
                       alt={token.name}
-                      width={32}
-                      height={32}
+                      width={24}
+                      height={24}
                       className="rounded-full"
                       unoptimized
                     />
                     <div>
-                      <div className="font-medium">
-                        {token.name}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="font-medium text-sm">{token.name}</div>
+                      <div className="text-xs text-muted-foreground">
                         {formatNumber(token.amount)} {token.optimized_symbol}
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium">
-                      ${formatUsdValue(usdValue)}
-                    </div>
-                    <div className="flex items-center justify-end gap-2 mt-1">
-                      <div className="text-sm text-muted-foreground">
+                    <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
+                    <div className="flex items-center justify-end gap-1 mt-0.5">
+                      <div className="text-xs text-muted-foreground">
                         ${formatNumber(token.price)}
                       </div>
                       {priceChange !== 0 && (
-                        <div 
-                          className={`
-                            text-xs px-2 py-0.5 rounded-full font-medium inline-flex items-center
-                            ${priceChange > 0 
-                              ? 'bg-green-100 text-green-600' 
-                              : 'bg-red-100 text-red-600'}
-                          `}
-                        >
+                        <div className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-flex items-center ${
+                          priceChange > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                        }`}>
                           <span className="text-[10px] leading-none flex items-center">
                             {priceChange > 0 ? '↑' : '↓'}
                           </span>
@@ -385,8 +376,8 @@ export function Dashboard() {
                 return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
             })
             .map((tx) => (
-              <div key={tx.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
-                <div className="flex items-center gap-3">
+              <div key={tx.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
+                <div className="flex items-center gap-2">
                   <Image
                     src={
                       tx.chain === 'base' && !tx.project_id
