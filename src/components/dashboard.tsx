@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import Image from 'next/image'
@@ -308,12 +307,22 @@ export function Dashboard() {
         <h2 className="text-2xl font-bold mb-4">Assets</h2>
         <div className="space-y-4">
           {tokens
-            .sort((a, b) => (b.price * b.amount) - (a.price * a.amount)) // Sort by USD value
-            .slice(0, 20) // Take top 20
+            .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
+            .slice(0, 20)
             .map((token) => {
               const usdValue = token.price * token.amount
+              const priceChange = token.price_24h_change || 0
+              
+              const formatNumber = (num: number) => {
+                if (num === 0) return '0'
+                if (Math.abs(num) < 0.01) return '<0.01'
+                if (Math.abs(num) >= 1000000) return (num / 1000000).toFixed(2) + 'M'
+                if (Math.abs(num) >= 1000) return (num / 1000).toFixed(2) + 'K'
+                return num.toFixed(Math.abs(num) < 1 ? 4 : 2)
+              }
+
               return (
-                <div key={token.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div key={token.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                   <div className="flex items-center gap-3">
                     <Image
                       src={token.symbol === 'mwcbBTC' ? '/cbtc.png' : (token.logo_url || '/placeholder.png')}
@@ -328,7 +337,7 @@ export function Dashboard() {
                         {token.name}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        {token.amount.toFixed(6)} {token.optimized_symbol}
+                        {formatNumber(token.amount)} {token.optimized_symbol}
                       </div>
                     </div>
                   </div>
@@ -336,8 +345,27 @@ export function Dashboard() {
                     <div className="font-medium">
                       ${formatUsdValue(usdValue)}
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      ${token.price.toFixed(2)}
+                    <div className="flex items-center justify-end gap-2 mt-1">
+                      <div className="text-sm text-muted-foreground">
+                        ${formatNumber(token.price)}
+                      </div>
+                      {priceChange !== 0 && (
+                        <div 
+                          className={`
+                            text-xs px-2 py-0.5 rounded-full font-medium inline-flex items-center
+                            ${priceChange > 0 
+                              ? 'bg-green-100 text-green-600' 
+                              : 'bg-red-100 text-red-600'}
+                          `}
+                        >
+                          <span className="text-[10px] leading-none flex items-center">
+                            {priceChange > 0 ? '↑' : '↓'}
+                          </span>
+                          <span className="ml-0.5">
+                            {Math.abs(priceChange).toFixed(2)}%
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -429,7 +457,7 @@ export function Dashboard() {
                         </div>
                       )
                     })}
-                    {tx.receives?.map((receive, i) => {
+                    {tx.receives?.map((receive: { amount: number; token_id: string; from_addr?: string }, i) => {
                       const token = receive.token_id === 'base'
                         ? tx.token_dict?.['base']
                         : tx.token_dict?.[receive.token_id]
