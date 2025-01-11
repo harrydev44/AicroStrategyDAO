@@ -448,7 +448,7 @@ export function Dashboard() {
           </div>
         </header>
 
-        <main className="flex-1 pt-24">
+        <main className="flex-1 pt-24 mb-12">
           <div className="container mx-auto max-w-7xl px-4">
             <div className="h-10 w-32 bg-gray-200 rounded mb-8 mt-2 animate-pulse" />
             
@@ -576,7 +576,7 @@ export function Dashboard() {
         </div>
       </header>
 
-      <main className="flex-1 pt-24">
+      <main className="flex-1 pt-24 mb-12">
         <div className="container mx-auto max-w-7xl px-4">
           <h1 className="text-4xl font-bold mb-8 mt-2">Stats</h1>
           <div className="space-y-4">
