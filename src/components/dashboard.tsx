@@ -98,12 +98,11 @@ interface TokenBalance {
   price_24h_change?: number
   is_verified: boolean
   is_core: boolean
-'use client'
-import { useEffect, useState } from 'react'
-import { Card } from '@/components/ui/card'
-import Image from 'next/image'
-import { formatDistanceToNow } from 'date-fns'
-import { getProtocolImage } from '@/utils/protocol-images'
+  is_wallet: boolean
+  time_at: number
+  amount: number
+  raw_amount: number
+}
 
 interface ChainBalance {
   id: string
