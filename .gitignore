@@ -22,3 +22,5 @@ yarn-error.log*
 
 # API Keys
 src/config/api.ts
+**/config/api.ts
+config/api.ts
