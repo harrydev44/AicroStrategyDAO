@@ -325,7 +325,13 @@ export function Dashboard() {
                 <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
                   <div className="flex items-center gap-2">
                     <Image
-                      src={token.symbol === 'mwcbBTC' ? '/cbtc.png' : (token.logo_url || '/placeholder.png')}
+                      src={
+                        token.symbol === 'mwcbBTC' 
+                          ? '/cbtc.png' 
+                          : token.logo_url 
+                            ? token.logo_url 
+                            : '/imageplace.png'
+                      }
                       alt={token.name}
                       width={24}
                       height={24}
@@ -376,7 +382,7 @@ export function Dashboard() {
                 return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
             })
             .map((tx) => (
-              <div key={tx.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
+              <div key={tx.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50 h-14">
                 <div className="flex items-center gap-2">
                   <Image
                     src={
@@ -397,13 +403,12 @@ export function Dashboard() {
                     unoptimized
                   />
                   <div>
-                    <div className="font-medium text-sm">
-                      {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id] ? (
-                        tx.project_dict[tx.project_id].name
-                      ) : (
-                        tx.project_id?.replace('base_', '') || 'Transfer'
-                      )}
-                      {' - '}
+                    <div className="flex items-center gap-1 text-sm">
+                      <span className="font-medium">
+                        {tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
+                          ? tx.project_dict[tx.project_id].name
+                          : tx.project_id?.replace('base_', '') || 'Transfer'}
+                      </span>
                       <span className="text-gray-600">
                         {getTransactionName(tx, tx.cate_dict)}
                       </span>
@@ -413,41 +418,29 @@ export function Dashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="space-y-0.5">
+                <div className="text-right flex flex-col items-end justify-center">
+                  <div className="flex flex-wrap justify-end gap-2">
                     {tx.sends?.map((send, i) => {
                       const token = tx.token_dict?.[send.token_id]
                       const amount = Number(send.amount)
                       const usdValue = token?.price ? (token.price * amount) : 0
                       return (
-                        <div key={i} className="text-red-500 text-sm flex items-center justify-end gap-1">
+                        <div key={i} className="text-red-500 text-xs flex items-center gap-1">
                           {token?.logo_url && (
                             <Image
                               src={token.logo_url}
                               alt={token.symbol}
-                              width={16}
-                              height={16}
+                              width={14}
+                              height={14}
                               className="rounded-full"
                               unoptimized
                             />
                           )}
                           <span>
-                            {token?.is_erc721 ? (
-                              <>
-                                -{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
-                                #{token?.inner_id}
-                                <span className="text-xs text-muted-foreground ml-1">
-                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                -{formatNumber(amount)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
-                                <span className="text-xs text-muted-foreground ml-1">
-                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
-                                </span>
-                              </>
-                            )}
+                            -{formatNumber(amount)} {token?.optimized_symbol || token?.symbol || 'Unknown'}
+                            <span className="text-[10px] text-muted-foreground ml-1">
+                              ${formatUsdValue(usdValue)}
+                            </span>
                           </span>
                         </div>
                       )
@@ -459,41 +452,29 @@ export function Dashboard() {
                       const amount = Number(receive.amount)
                       const usdValue = token?.price ? (token.price * amount) : 0
                       return (
-                        <div key={i} className="text-green-500 text-sm flex items-center justify-end gap-1">
+                        <div key={i} className="text-green-500 text-xs flex items-center gap-1">
                           {(token?.logo_url || receive.token_id === 'base') && (
                             <Image
                               src={token?.logo_url || '/eth.png'}
                               alt={token?.symbol || 'ETH'}
-                              width={16}
-                              height={16}
+                              width={14}
+                              height={14}
                               className="rounded-full"
                               unoptimized
                             />
                           )}
                           <span>
-                            {token?.is_erc721 ? (
-                              <>
-                                +{amount.toFixed(0)} {token?.collection?.name || token?.name || 'NFT'} 
-                                #{token?.inner_id}
-                                <span className="text-xs text-muted-foreground ml-1">
-                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                +{formatNumber(amount)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
-                                <span className="text-xs text-muted-foreground ml-1">
-                                  {usdValue > 0 && `($${formatUsdValue(usdValue)})`}
-                                </span>
-                              </>
-                            )}
+                            +{formatNumber(amount)} {receive.token_id === 'base' ? 'ETH' : (token?.optimized_symbol || token?.symbol || 'Unknown')}
+                            <span className="text-[10px] text-muted-foreground ml-1">
+                              ${formatUsdValue(usdValue)}
+                            </span>
                           </span>
                         </div>
                       )
                     })}
                   </div>
                   {(tx.tx?.eth_gas_fee || tx.tx?.usd_gas_fee) && (
-                    <div className="text-xs text-muted-foreground mt-1">
+                    <div className="text-[10px] text-muted-foreground mt-0.5">
                       Gas: {tx.tx?.eth_gas_fee ? `${formatNumber(tx.tx.eth_gas_fee)} ETH` : ''} 
                       {tx.tx?.usd_gas_fee ? ` ($${formatUsdValue(tx.tx.usd_gas_fee)})` : ''}
                     </div>
