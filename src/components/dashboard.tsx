@@ -160,12 +160,6 @@ export function Dashboard() {
     }
 
     fetchData()
-
-    // Set up polling every 30 seconds
-    const intervalId = setInterval(fetchData, 30000)
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId)
   }, [])
 
   const LoadingCard = () => (
