@@ -244,6 +244,7 @@ export function Dashboard() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {data.chain_list
             .filter(chain => chain.usd_value > 0) // Only show chains with balance > 0
+            .sort((a, b) => b.usd_value - a.usd_value) // Sort by value, highest first
             .map((chain) => (
               <div key={chain.id} className="flex items-center space-x-3 p-4 border rounded-lg">
                 <Image
@@ -286,7 +287,7 @@ export function Dashboard() {
                   <Image
                     src={
                       tx.cate_id === 'send' || tx.cate_id === 'receive'
-                        ? '/avatar.png'
+                        ? '/avatar2.png'
                         : tx.project_id?.includes('uniswap')
                           ? '/uni.png'
                           : tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
@@ -296,8 +297,8 @@ export function Dashboard() {
                     alt={tx.project_id && tx.project_dict && tx.project_dict[tx.project_id]
                       ? tx.project_dict[tx.project_id].name
                       : tx.project_id?.replace('base_', '') || 'Unknown Protocol'}
-                    width={(tx.cate_id === 'send' || tx.cate_id === 'receive') ? 32 : 24}
-                    height={(tx.cate_id === 'send' || tx.cate_id === 'receive') ? 32 : 24}
+                    width={24}
+                    height={24}
                     className="rounded-full"
                     unoptimized
                   />
