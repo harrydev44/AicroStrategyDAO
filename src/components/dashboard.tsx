@@ -612,8 +612,8 @@ export function Dashboard() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="border rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-3">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
                       <Image
                         src="/morpho.png"
                         alt="Morpho"
@@ -624,14 +624,17 @@ export function Dashboard() {
                       />
                       <span className="font-medium">Morpho</span>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <div className="text-sm text-muted-foreground">Pool</div>
-                        <div className="font-medium">cbBTC</div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground">Balance</div>
-                        <div className="font-medium">1 cbBTC</div>
+
+                    <div className="border rounded-lg p-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <div className="text-sm text-muted-foreground">Pool</div>
+                          <div className="font-medium">cbBTC</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Balance</div>
+                          <div className="font-medium">1 cbBTC</div>
+                        </div>
                       </div>
                     </div>
                   </div>
