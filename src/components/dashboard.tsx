@@ -95,6 +95,107 @@ interface TokenBalance {
   logo_url: string | null
   protocol_id: string
   price: number
+  price_24h_change?: number
+  is_verified: boolean
+  is_core: boolean
+'use client'
+import { useEffect, useState } from 'react'
+import { Card } from '@/components/ui/card'
+import Image from 'next/image'
+import { formatDistanceToNow } from 'date-fns'
+import { getProtocolImage } from '@/utils/protocol-images'
+
+interface ChainBalance {
+  id: string
+  name: string
+  logo_url: string
+  usd_value: number
+}
+
+interface Protocol {
+  id: string
+  name: string
+  logo_url: string
+  chain: string
+}
+
+interface DecodedTx {
+  from_addr: string
+  id: string
+  name: string
+  status: number
+  to_addr: string
+  value: number
+  eth_gas_fee?: number
+  usd_gas_fee?: number
+}
+
+interface Transaction {
+  cate_id: string | null
+  chain: string
+  id: string
+  is_scam: boolean
+  project_id: string | null
+  time_at: number
+  other_addr?: string
+  sends?: Array<{
+    amount: number
+    token_id: string
+    to_addr?: string
+  }>
+  receives?: Array<{
+    amount: number
+    token_id: string
+    from_addr?: string
+  }>
+  tx: DecodedTx
+  token_dict?: Record<string, {
+    symbol: string
+    name: string
+    decimals: number
+    logo_url: string
+    price: number
+    optimized_symbol?: string
+    is_scam?: boolean
+    is_erc721?: boolean
+    inner_id?: string
+    collection?: {
+      name: string
+    }
+  }>
+  token_approve?: {
+    spender: string
+    token_id: string
+    value: number
+  }
+  project_dict?: Record<string, {
+    logo_url: string
+    name: string
+  }>
+  cate_dict?: CategoryDict
+}
+
+interface DebankResponse {
+  total_usd_value: number
+  chain_list: ChainBalance[]
+}
+
+interface DebankTxResponse {
+  history_list: Transaction[]
+}
+
+interface TokenBalance {
+  id: string
+  chain: string
+  name: string
+  symbol: string
+  display_symbol: string | null
+  optimized_symbol: string
+  decimals: number
+  logo_url: string | null
+  protocol_id: string
+  price: number
+  price_24h_change?: number
   is_verified: boolean
   is_core: boolean
   is_wallet: boolean
