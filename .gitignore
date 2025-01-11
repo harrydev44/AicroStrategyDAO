@@ -19,8 +19,3 @@ yarn-error.log*
 
 # Vercel
 .vercel
-
-# API Keys
-src/config/api.ts
-**/config/api.ts
-config/api.ts
