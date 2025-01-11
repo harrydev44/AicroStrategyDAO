@@ -68,14 +68,14 @@ export default function Home() {
                 target="_blank">
                 Telegram
               </Link>
-
               <Link href="https://x.com/AicroStrategy"
                 className="text-sm font-medium transition-colors hover:text-primary"
                 target="_blank">
                 Twitter
               </Link>
 
-              <Link href="/stats" className="text-muted-foreground hover:text-primary">
+              <Link href="/stats" 
+                className="text-sm font-medium transition-colors hover:text-primary">
                 Stats
               </Link>
             </nav>
