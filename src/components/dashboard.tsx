@@ -563,61 +563,129 @@ export function Dashboard() {
 
             <Card className="p-6">
               <h2 className="text-2xl font-bold mb-4">Assets</h2>
-              <div className="space-y-4">
-                {tokens
-                  .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
-                  .slice(0, 20)
-                  .map((token) => {
-                    const usdValue = token.price * token.amount
-                    const priceChange = token.price_24h_change || 0
-                    
-                    return (
-                      <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
-                        <div className="flex items-center gap-2">
-                          <Image
-                            src={
-                              token.symbol === 'mwcbBTC' 
-                                ? '/cbtc.png' 
-                                : token.logo_url 
-                                  ? token.logo_url 
-                                  : '/imageplace.png'
-                            }
-                            alt={token.name}
-                            width={24}
-                            height={24}
-                            className="rounded-full"
-                            unoptimized
-                          />
-                          <div>
-                            <div className="font-medium text-sm">{token.name}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {formatNumber(token.amount)} {token.optimized_symbol}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  {tokens
+                    .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
+                    .slice(0, 10)
+                    .map((token) => {
+                      const usdValue = token.price * token.amount
+                      const priceChange = token.price_24h_change || 0
+                      
+                      return (
+                        <div key={token.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50">
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src={
+                                token.symbol === 'mwcbBTC' 
+                                  ? '/cbtc.png' 
+                                  : token.logo_url 
+                                    ? token.logo_url 
+                                    : '/imageplace.png'
+                              }
+                              alt={token.name}
+                              width={24}
+                              height={24}
+                              className="rounded-full"
+                              unoptimized
+                            />
+                            <div>
+                              <div className="font-medium text-sm">{token.name}</div>
+                              <div className="text-xs text-muted-foreground">
+                                {formatNumber(token.amount)} {token.optimized_symbol}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
-                          <div className="flex items-center justify-end gap-1 mt-0.5">
-                            <div className="text-xs text-muted-foreground">
-                              ${formatNumber(token.price)}
-                            </div>
+                          <div className="text-right">
+                            <div className="font-medium text-sm">${formatUsdValue(usdValue)}</div>
                             {priceChange !== 0 && (
                               <div className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium inline-flex items-center ${
                                 priceChange > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
                               }`}>
-                                <span className="text-[10px] leading-none flex items-center">
-                                  {priceChange > 0 ? '↑' : '↓'}
-                                </span>
-                                <span className="ml-0.5">
-                                  {Math.abs(priceChange).toFixed(2)}%
-                                </span>
+                                {priceChange > 0 ? '↑' : '↓'} {Math.abs(priceChange).toFixed(2)}%
                               </div>
                             )}
                           </div>
                         </div>
+                      )
+                    })}
+                </div>
+
+                <div className="space-y-4">
+                  <div className="border rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Image
+                        src="/morpho.png"
+                        alt="Morpho"
+                        width={24}
+                        height={24}
+                        className="rounded-full"
+                        unoptimized
+                      />
+                      <span className="font-medium">Morpho</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-sm text-muted-foreground">Pool</div>
+                        <div className="font-medium">cbBTC</div>
                       </div>
-                    )
-                  })}
+                      <div>
+                        <div className="text-sm text-muted-foreground">Balance</div>
+                        <div className="font-medium">1 cbBTC</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src="/aero.png"
+                        alt="Aerodrome"
+                        width={24}
+                        height={24}
+                        className="rounded-full"
+                        unoptimized
+                      />
+                      <span className="font-medium">Aerodrome</span>
+                    </div>
+
+                    <div className="border rounded-lg p-4">
+                      <div className="text-sm font-medium mb-2">Farming</div>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <div className="text-sm text-muted-foreground">Pool</div>
+                          <div className="font-medium">fBOMB+cbBTC</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Balance</div>
+                          <div className="font-medium">
+                            247,708.2337 fBOMB
+                            <br />
+                            0.1296 cbBTC
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Rewards</div>
+                          <div className="font-medium">6.2886 AERO ($7.33)</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border rounded-lg p-4">
+                      <div className="text-sm font-medium mb-2">Locked</div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <div className="text-sm text-muted-foreground">Pool</div>
+                          <div className="font-medium">AERO</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Balance</div>
+                          <div className="font-medium">18,910.2112 AERO</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </Card>
 
