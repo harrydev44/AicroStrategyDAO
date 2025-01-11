@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+node_modules_old
+
+# Next.js
+.next/
+out/
+build/
+.next.config.js
+
+# Environment files
+.env*.local
+.env
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel

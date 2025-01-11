@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react'
 import { GradientText } from '@/components/gradient-text'
 import { HoverCard } from '@/components/hover-card'
 import { LoadingScreen } from '@/components/loading-screen'
+import { Dashboard } from '@/components/dashboard'
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -79,6 +80,13 @@ export default function Home() {
       </header>
 
       <main className="flex-1 pt-24">
+        {/* Add the Dashboard section before the Hero section */}
+        <AnimatedSection className="py-24 bg-white">
+          <div className="container mx-auto max-w-7xl px-4">
+            <Dashboard />
+          </div>
+        </AnimatedSection>
+
         {/* Hero Section */}
         <AnimatedSection className="relative min-h-[90vh] flex items-center bg-white">
           <div className="container relative z-10 mx-auto max-w-7xl px-4">
