@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 import { getProtocolImage } from '@/utils/protocol-images'
 import Link from 'next/link'
+import examplePortfolioData from './exampleporfoliojson.json'
 
 interface ChainBalance {
   id: string
@@ -211,6 +212,47 @@ type CategoryDict = {
   };
 };
 
+// Add new interface for the portfolio response
+interface PortfolioResponse {
+  data: {
+    chain: string
+    id: string
+    name: string
+    logo_url: string
+    portfolio_item_list: Array<{
+      name: string
+      detail: {
+        description?: string
+        supply_token_list: Array<{
+          amount: number
+          chain: string
+          decimals: number
+          id: string
+          logo_url: string | null
+          name: string
+          optimized_symbol: string
+          price: number
+          symbol: string
+        }>
+        reward_token_list?: Array<{
+          amount: number
+          chain: string
+          decimals: number
+          id: string
+          logo_url: string
+          name: string
+          optimized_symbol: string
+          price: number
+          symbol: string
+        }>
+      }
+      stats: {
+        net_usd_value: number
+      }
+    }>
+  }[]
+}
+
 export function Dashboard() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -234,6 +276,7 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [tokens, setTokens] = useState<TokenBalance[]>([])
+  const [portfolioData, setPortfolioData] = useState<PortfolioResponse['data']>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -297,10 +340,31 @@ export function Dashboard() {
         const tokenData = await tokenRes.json()
         setTokens(tokenData)
         
+        // Fetch portfolio data
+        if (process.env.NODE_ENV === 'development') {
+          // Simulate API delay
+          await new Promise(resolve => setTimeout(resolve, 500))
+          setPortfolioData(examplePortfolioData.data)
+        } else {
+          // Production API call
+          const portfolioResponse = await fetch('https://api.debank.com/portfolio/list?user_addr=0xddc23d34ea2f6920d15995607d00def9478ded6d', {
+            headers: {
+              'accept': '*/*',
+              'source': 'web',
+              // Add your API headers here
+            }
+          })
+          const data = await portfolioResponse.json()
+          if (data.error_code === 429) {
+            throw new Error('Rate limited: ' + data.error_msg)
+          }
+          setPortfolioData(data.data)
+        }
+        
+        setLoading(false)
       } catch (err) {
         console.error('Error fetching data:', err)
         setError(err instanceof Error ? err.message : 'An error occurred')
-      } finally {
         setLoading(false)
       }
     }
@@ -564,6 +628,7 @@ export function Dashboard() {
             <Card className="p-6">
               <h2 className="text-2xl font-bold mb-4">Assets</h2>
               <div className="grid grid-cols-2 gap-4">
+                {/* Left column - Token list */}
                 <div className="space-y-4">
                   {tokens
                     .sort((a, b) => (b.price * b.amount) - (a.price * a.amount))
@@ -611,83 +676,73 @@ export function Dashboard() {
                     })}
                 </div>
 
+                {/* Right column - Protocol positions */}
                 <div className="space-y-4">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                      <Image
-                        src="/morpho.png"
-                        alt="Morpho"
-                        width={24}
-                        height={24}
-                        className="rounded-full"
-                        unoptimized
-                      />
-                      <span className="font-medium">Morpho</span>
-                    </div>
-
-                    <div className="border rounded-lg p-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <div className="text-sm text-muted-foreground">Pool</div>
-                          <div className="font-medium">cbBTC</div>
+                  {portfolioData && portfolioData.length > 0 ? (
+                    portfolioData.map((protocol) => (
+                      <div key={protocol.id} className="space-y-4">
+                        {/* Protocol Header */}
+                        <div className="flex items-center gap-2">
+                          <Image
+                            src={protocol.logo_url}
+                            alt={protocol.name}
+                            width={24}
+                            height={24}
+                            className="rounded-full"
+                            unoptimized
+                          />
+                          <span className="font-medium">{protocol.name}</span>
+                          <span className="ml-auto">
+                            ${formatUsdValue(protocol.portfolio_item_list.reduce((sum, item) => sum + item.stats.net_usd_value, 0))}
+                          </span>
                         </div>
-                        <div>
-                          <div className="text-sm text-muted-foreground">Balance</div>
-                          <div className="font-medium">1 cbBTC</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                      <Image
-                        src="/aero.png"
-                        alt="Aerodrome"
-                        width={24}
-                        height={24}
-                        className="rounded-full"
-                        unoptimized
-                      />
-                      <span className="font-medium">Aerodrome</span>
-                    </div>
-
-                    <div className="border rounded-lg p-4">
-                      <div className="text-sm font-medium mb-2">Farming</div>
-                      <div className="grid grid-cols-3 gap-4">
-                        <div>
-                          <div className="text-sm text-muted-foreground">Pool</div>
-                          <div className="font-medium">fBOMB+cbBTC</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-muted-foreground">Balance</div>
-                          <div className="font-medium">
-                            247,708.2337 fBOMB
-                            <br />
-                            0.1296 cbBTC
+                        {/* Protocol Positions */}
+                        {protocol.portfolio_item_list.map((item) => (
+                          <div key={item.name} className="border rounded-lg p-4">
+                            {item.name !== "Yield" && (
+                              <div className="text-sm font-medium mb-2">{item.name}</div>
+                            )}
+                            <div className="grid grid-cols-3 gap-4">
+                              <div>
+                                <div className="text-sm text-muted-foreground">Pool</div>
+                                <div className="font-medium">
+                                  {item.detail.supply_token_list.map(token => token.optimized_symbol).join('+')}
+                                </div>
+                              </div>
+                              <div>
+                                <div className="text-sm text-muted-foreground">Balance</div>
+                                <div className="font-medium">
+                                  {item.detail.supply_token_list.map((token, i) => (
+                                    <div key={i}>
+                                      {formatNumber(token.amount)} {token.optimized_symbol}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                              {item.detail.reward_token_list && (
+                                <div>
+                                  <div className="text-sm text-muted-foreground">Rewards</div>
+                                  <div className="font-medium">
+                                    {item.detail.reward_token_list.map((token, i) => (
+                                      <div key={i}>
+                                        {formatNumber(token.amount)} {token.optimized_symbol} 
+                                        (${formatUsdValue(token.amount * token.price)})
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-muted-foreground">Rewards</div>
-                          <div className="font-medium">6.2886 AERO ($7.33)</div>
-                        </div>
+                        ))}
                       </div>
+                    ))
+                  ) : (
+                    <div className="text-center text-muted-foreground">
+                      {loading ? "Loading..." : "No portfolio data available"}
                     </div>
-
-                    <div className="border rounded-lg p-4">
-                      <div className="text-sm font-medium mb-2">Locked</div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <div className="text-sm text-muted-foreground">Pool</div>
-                          <div className="font-medium">AERO</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-muted-foreground">Balance</div>
-                          <div className="font-medium">18,910.2112 AERO</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </Card>
