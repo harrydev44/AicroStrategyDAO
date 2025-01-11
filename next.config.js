@@ -1,13 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': require('path').resolve(__dirname, 'src'),
+  images: {
+    domains: ['static.debank.com'], // Add this for DeBank images
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/',
+          has: [
+            {
+              type: 'host',
+              value: 'stats.aicrostrategy.com',
+            },
+          ],
+          destination: '/stats',
+        },
+      ],
     }
-    return config
-  }
+  },
 }
 
 module.exports = nextConfig 
