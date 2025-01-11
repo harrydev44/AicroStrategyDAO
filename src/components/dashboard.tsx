@@ -12,6 +12,13 @@ interface ChainBalance {
   usd_value: number
 }
 
+interface Protocol {
+  id: string
+  name: string
+  logo_url: string
+  chain: string
+}
+
 interface Transaction {
   cate_id: string
   chain: string
@@ -29,6 +36,16 @@ interface Transaction {
     status: number
     usd_gas_fee: number
   }
+  project_id: string | null
+  protocol?: Protocol
+  other_addr?: string
+  token_dict?: Record<string, {
+    symbol: string
+    decimals: number
+    price: number
+    name: string
+    logo_url: string
+  }>
 }
 
 interface DebankResponse {
@@ -97,8 +114,17 @@ export function Dashboard() {
           cate_id: tx.cate_id || '',
           chain: tx.chain || '',
           time_at: tx.time_at || Date.now() / 1000,
-          sends: tx.sends || [],
-          receives: tx.receives || [],
+          project_id: tx.project_id,
+          protocol: tx.protocol || null,
+          sends: tx.sends?.map((send: any) => ({
+            amount: send.amount,
+            token_id: send.token_id,
+          })) || [],
+          receives: tx.receives?.map((receive: any) => ({
+            amount: receive.amount,
+            token_id: receive.token_id,
+          })) || [],
+          token_dict: tx.token_dict || {},
           tx: {
             name: tx.tx?.name || 'Unknown Transaction',
             status: tx.tx?.status || 0,
@@ -213,31 +239,51 @@ export function Dashboard() {
       <Card className="p-6">
         <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
         <div className="space-y-4">
-          {transactions.length > 0 ? (
-            transactions.map((tx) => (
+          {transactions
+            .filter(tx => !tx.cate_id?.includes('scam')) // Filter out scam transactions
+            .map((tx) => (
               <div key={tx.time_at} className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <div className="font-medium capitalize">{tx.tx.name}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {formatDistanceToNow(tx.time_at * 1000, { addSuffix: true })}
+                <div className="flex items-center gap-3">
+                  {tx.protocol?.logo_url && (
+                    <Image
+                      src={tx.protocol.logo_url}
+                      alt={tx.protocol.name}
+                      width={24}
+                      height={24}
+                      className="rounded-full"
+                      unoptimized
+                    />
+                  )}
+                  <div>
+                    <div className="font-medium">
+                      {tx.protocol?.name || tx.project_id || 'Unknown Protocol'}
+                      {' - '}
+                      {tx.tx.name}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {formatDistanceToNow(tx.time_at * 1000, { addSuffix: true })}
+                    </div>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="font-medium">
-                    {tx.sends?.[0]?.amount && `-${tx.sends[0].amount}`}
-                    {tx.receives?.[0]?.amount && `+${tx.receives[0].amount}`}
+                    {tx.sends?.map((send, i) => (
+                      <div key={i} className="text-red-500">
+                        -{send.amount} {tx.token_dict?.[send.token_id]?.symbol || 'tokens'}
+                      </div>
+                    ))}
+                    {tx.receives?.map((receive, i) => (
+                      <div key={i} className="text-green-500">
+                        +{receive.amount} {tx.token_dict?.[receive.token_id]?.symbol || 'tokens'}
+                      </div>
+                    ))}
                   </div>
                   <div className="text-sm text-muted-foreground">
                     Gas: ${formatUsdValue(tx.tx.usd_gas_fee)}
                   </div>
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="text-center text-muted-foreground py-4">
-              No transactions found
-            </div>
-          )}
+            ))}
         </div>
       </Card>
     </div>
