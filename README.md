@@ -16,7 +16,7 @@
 
 ###
 
-<p align="left">🤖 Pioneering AI-powered Bitcoin strategies since 2024<br>🧠 We're constantly evolving our AI algorithms for optimal market analysis<br>💎 Goals: Maximize cbBTC accumulation through strategic positioning</p>
+<p align="left">🤖 Pioneering AI-powered Bitcoin strategies since 2024.<br>🧠 We're constantly evolving our AI algorithms for optimal market analysis.<br>💎 Goals: Maximize cbBTC accumulation through strategic positioning.</p>
 
 ###
 
