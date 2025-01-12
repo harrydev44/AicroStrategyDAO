@@ -581,7 +581,7 @@ export function Dashboard() {
           <h1 className="text-4xl font-bold mb-8 mt-2">Stats</h1>
           <div className="space-y-4">
             <Card className="p-6">
-              <h2 className="text-2xl font-bold mb-2">AUM (Asset Under Management)</h2>
+              <h2 className="text-2xl font-bold mb-2">AUM (Assets Under Management)</h2>
               <div className="text-4xl font-bold text-primary">
                 ${formatUsdValue(data.total_usd_value)}
               </div>
