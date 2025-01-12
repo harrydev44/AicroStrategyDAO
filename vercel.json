@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/stats",
+      "permanent": true
+    }
+  ]
+}
