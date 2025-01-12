@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ChevronRight, ArrowRight } from 'lucide-react'
 import { AnimatedSection } from '@/components/animated-section'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { GradientText } from '@/components/gradient-text'
 import { HoverCard } from '@/components/hover-card'
 import { LoadingScreen } from '@/components/loading-screen'
@@ -15,6 +15,12 @@ import { Dashboard } from '@/components/dashboard'
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false); // State to handle hydration
+
+  // useLayoutEffect for fixing hydration error
+  useLayoutEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -27,6 +33,8 @@ export default function Home() {
       window.removeEventListener('mousemove', updateMousePosition);
     };
   }, []);
+
+  if (!mounted) return null; // Ensure the content renders after hydration
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -261,14 +269,14 @@ export default function Home() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            d="M4 6h16M4 12h16M4 18h16"
                           />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold">High Treasury Yield</h4>
+                        <h4 className="font-semibold">Security</h4>
                         <p className="text-muted-foreground">
-                          High RFV supports consistent and attractive yield for holders
+                          Strong risk management protocols ensuring the safety of our assets
                         </p>
                       </div>
                     </div>
@@ -285,14 +293,14 @@ export default function Home() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                            d="M10 11V6h4v5h5v4h-5v5h-4v-5h-5v-4h5z"
                           />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold">Future-Proof Design</h4>
+                        <h4 className="font-semibold">Automation</h4>
                         <p className="text-muted-foreground">
-                          Streamlined codebase enables seamless AI integration and minimizes vulnerabilities
+                          24/7 operation with automated execution of strategies to capture real-time market opportunities
                         </p>
                       </div>
                     </div>
@@ -307,106 +315,32 @@ export default function Home() {
         <AnimatedSection className="py-24 bg-white">
           <div className="container mx-auto max-w-7xl px-4">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12">
-              <GradientText>Community Made</GradientText>
+              <GradientText>Join the Community</GradientText>
             </h2>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              <Card className="group relative overflow-hidden p-6">
-                <Link href="https://t.me/aicrostrategy_dao" target="_blank" className="block">
-                  <div className="flex flex-col space-y-4">
-                    <Image
-                      src="/aistr2.jpeg"
-                      alt="Community Chat"
-                      width={400}
-                      height={300}
-                      className="object-cover rounded-lg"
-                    />
-                    <h3 className="text-xl font-bold">Community Chat</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Join our Telegram community to discuss strategies and updates.
-                    </p>
-                  </div>
-                </Link>
-              </Card>
-
-              <Card className="group relative overflow-hidden p-6">
-                <Link href="https://github.com/aicrostrategy" target="_blank" className="block">
-                  <div className="flex flex-col space-y-4">
-                    <Image
-                      src="/aistr3.jpeg"
-                      alt="GitHub"
-                      width={400}
-                      height={300}
-                      className="object-cover rounded-lg"
-                    />
-                    <h3 className="text-xl font-bold">GitHub</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Explore our open-source code and contribute to development.
-                    </p>
-                  </div>
-                </Link>
-              </Card>
-
-              <Card className="group relative overflow-hidden p-6">
-                <Link href="https://x.com/AicroStrategy" target="_blank" className="block">
-                  <div className="flex flex-col space-y-4">
-                    <Image
-                      src="/aistr4.jpeg"
-                      alt="X (Twitter)"
-                      width={400}
-                      height={300}
-                      className="object-cover rounded-lg"
-                    />
-                    <h3 className="text-xl font-bold">X (Twitter)</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Follow us for the latest updates and announcements.
-                    </p>
-                  </div>
-                </Link>
-              </Card>
-
-              <Card className="group relative overflow-hidden p-6">
-                <Link href="https://debank.com/profile/0xddc23d34ea2f6920d15995607d00def9478ded6d" target="_blank" className="block">
-                  <div className="flex flex-col space-y-4">
-                    <Image
-                      src="/aistr5.jpeg"
-                      alt="Portfolio Assets"
-                      width={400}
-                      height={300}
-                      className="object-cover rounded-lg"
-                    />
-                    <h3 className="text-xl font-bold">Portfolio</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Track our current assets and investment performance.
-                    </p>
-                  </div>
-                </Link>
-              </Card>
-            </div>
+            <p className="text-lg text-muted-foreground">
+              Engage with other members of the AicroStrategy community and stay informed about the latest developments in AI-powered investment.
+            </p>
           </div>
         </AnimatedSection>
 
-        {/* CTA Section */}
+        {/* Call to Action Section */}
         <AnimatedSection className="py-24 pb-36 bg-white">
-          <div className="container relative mx-auto max-w-7xl px-4 text-center">
-            <div className="max-w-2xl mx-auto">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">
-                <GradientText>Ready to Join?</GradientText>
-              </h2>
-              <p className="text-muted-foreground mb-8 md:text-xl">
-                Join our mission to accumulate cbBTC through the power of AI.
-              </p>
-              <div className="flex justify-center gap-4">
-                <Button size="lg" className="rounded-full" asChild>
-                  <Link href="https://daos.world/fund/0xddc23d34ea2f6920d15995607d00def9478ded6d" target="_blank">
-                    Buy $AiSTR
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-full" asChild>
-                  <Link href="https://debank.com/profile/0xddc23d34ea2f6920d15995607d00def9478ded6d" target="_blank">
-                    View Strategy
-                  </Link>
-                </Button>
-              </div>
+          <div className="container mx-auto max-w-7xl px-4">
+            <div className="text-center space-y-8">
+              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">Be part of the revolution</h2>
+              <Button
+                size="lg"
+                className="rounded-full"
+                asChild
+              >
+                <Link
+                  href="https://daos.world/fund/0xddc23d34ea2f6920d15995607d00def9478ded6d"
+                  target="_blank"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2" />
+                </Link>
+              </Button>
             </div>
           </div>
         </AnimatedSection>
@@ -415,28 +349,11 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t py-12 bg-white">
         <div className="container mx-auto max-w-7xl px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-8">
-              <Image src="/aicrostrategy.png" alt="AicroStrategy Logo" width={140} height={28} />
-              <div className="text-sm text-muted-foreground">
-                © {new Date().getFullYear()} AicroStrategy
-              </div>
-            </div>
-            <div className="flex items-center gap-6">
-              <Link href="https://t.me/aicrostrategy_dao" className="text-muted-foreground hover:text-primary" target="_blank">
-                Telegram
-              </Link>
-              <Link href="https://x.com/AicroStrategy" className="text-muted-foreground hover:text-primary" target="_blank">
-                Twitter
-              </Link>
-              <Link href="https://github.com/aicrostrategy" className="text-muted-foreground hover:text-primary" target="_blank">
-                GitHub
-              </Link>
-            </div>
+          <div className="text-center text-muted-foreground">
+            &copy; 2025 AicroStrategy. All rights reserved.
           </div>
         </div>
       </footer>
     </div>
   )
 }
-
