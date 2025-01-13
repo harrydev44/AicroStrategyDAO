@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { GradientText } from '@/components/gradient-text'
 import { Sparkle } from 'lucide-react'
 
@@ -8,17 +8,39 @@ export function LoadingScreen() {
   const [show, setShow] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
 
+  const handleSkip = useCallback(() => {
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setShow(false)
+    }, 800) // Match this with the CSS transition duration
+  }, [])
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsTransitioning(true)
-      // Wait for fade out animation to complete before unmounting
-      setTimeout(() => {
-        setShow(false)
-      }, 800) // Match this with the CSS transition duration
+      handleSkip()
     }, 4000)
 
-    return () => clearTimeout(timer)
-  }, [])
+    const handleKeyPress = (event) => {
+      if (event.code === 'Space' || event.code === 'Enter') {
+        clearTimeout(timer)
+        handleSkip()
+      }
+    }
+
+    const handleMouseClick = () => {
+      clearTimeout(timer)
+      handleSkip()
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    window.addEventListener('click', handleMouseClick)
+
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('keydown', handleKeyPress)
+      window.removeEventListener('click', handleMouseClick)
+    }
+  }, [handleSkip])
 
   if (!show) return null
 
@@ -59,4 +81,4 @@ export function LoadingScreen() {
       </div>
     </div>
   )
-} 
+}
