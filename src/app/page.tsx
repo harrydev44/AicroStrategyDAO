@@ -154,6 +154,20 @@ export default function Home() {
                       <ChevronRight className="ml-2" />
                     </Link>
                   </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="rounded-full"
+                    asChild
+                  >
+                    <Link
+                      href="https://docs.aicrostrategy.com"
+                      target="_blank"
+                    >
+                      Docs
+                      <ChevronRight className="ml-2" />
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </div>
