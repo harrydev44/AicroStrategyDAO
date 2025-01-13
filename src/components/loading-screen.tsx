@@ -20,14 +20,14 @@ export function LoadingScreen() {
       handleSkip()
     }, 4000)
 
-    const handleKeyPress = (event) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
       if (event.code === 'Space' || event.code === 'Enter') {
         clearTimeout(timer)
         handleSkip()
       }
     }
 
-    const handleMouseClick = () => {
+    const handleMouseClick = (event: MouseEvent) => {
       clearTimeout(timer)
       handleSkip()
     }
