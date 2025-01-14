@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "https://docs.aicrostrategy.com",
+      "destination": "https://aicrostrategy.gitbook.io",
+      "permanent": true
+    }
+  ]
+}
