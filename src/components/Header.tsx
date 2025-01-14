@@ -127,7 +127,7 @@ export function Header() {
                     >
                         Home
                     </Link>
-                    <hr className="border-t border-gray-900 dark:border-white w-1/2 my-2" />{" "}
+                    <hr className="border-t border-red-500 w-3/5 my-2" />{" "}
                     {/* Horizontal line */}
                     <Link
                         href="https://dexscreener.com/base/0x197ecb5c176ad4f6e77894913a94c5145416f148"
@@ -137,7 +137,7 @@ export function Header() {
                     >
                         DexScreener
                     </Link>
-                    <hr className="border-t border-gray-900 dark:border-white w-1/2 my-2" />{" "}
+                    <hr className="border-t border-red-500 w-3/5 my-2" />{" "}
                     {/* Horizontal line */}
                     <Link
                         href="https://t.me/aicrostrategy_dao"
@@ -147,7 +147,7 @@ export function Header() {
                     >
                         Telegram
                     </Link>
-                    <hr className="border-t border-gray-900 dark:border-white w-1/2 my-2" />{" "}
+                    <hr className="border-t border-red-500 w-3/5 my-2" />{" "}
                     {/* Horizontal line */}
                     <Link
                         href="https://x.com/AicroStrategy"
@@ -157,7 +157,7 @@ export function Header() {
                     >
                         Twitter
                     </Link>
-                    <hr className="border-t border-gray-900 dark:border-white w-1/2 my-2" />{" "}
+                    <hr className="border-t border-red-500 w-3/5 my-2" />{" "}
                     {/* Horizontal line */}
                     <Link
                         href="/stats"
@@ -166,7 +166,7 @@ export function Header() {
                     >
                         Stats
                     </Link>
-                    <hr className="border-t border-gray-900 dark:border-white w-1/2 my-2" />{" "}
+                    <hr className="border-t border-red-500 w-3/5 my-2" />{" "}
                     {/* Horizontal line */}
                     {/* Theme Toggle Button */}
                     <div
@@ -193,15 +193,15 @@ export function Header() {
                                 )}
                             </Button>
                         )}
-                        <div className="mt-12 flex justify-center">
-        <Image
-            src="/aicrostrategy-logo.png"
-            alt="Image Description"
-            width={50}
-            height={50}
-            className="rounded-lg"
-        />
-    </div>
+                        <div className="mt-20 flex justify-center">
+                            <Image
+                                src="/aicrostrategy-logo.png"
+                                alt="Image Description"
+                                width={50}
+                                height={50}
+                                className="rounded-lg"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
