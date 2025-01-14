@@ -111,7 +111,7 @@ export function Header() {
                     "h-[100vh]"
                 )}
             >
-                <div className="p-6 flex flex-col items-center justify-center space-y-6 bg-background">
+                <div className="p-6 flex flex-col items-center justify-center space-y-8 bg-background">
                     {/* Close Button (only for mobile) */}
                     <button
                         className="self-end p-2 md:hidden text-red-500"
