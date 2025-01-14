@@ -566,7 +566,7 @@ export function Dashboard() {
     return (
         <div className="flex min-h-screen flex-col">
             <div
-                className="pointer-events-none fixed z-[999] h-3 w-3 rounded-full transition-transform duration-200 ease-out"
+                className="pointer-events-none fixed z-[999] h-3 w-3 rounded-full transition-transform duration-200 ease-out hidden sm:block"
                 style={{
                     left: `${mousePosition.x}px`,
                     top: `${mousePosition.y}px`,
@@ -575,7 +575,7 @@ export function Dashboard() {
                 }}
             />
             <div
-                className="pointer-events-none fixed z-[998] h-8 w-8 rounded-full border transition-transform duration-300 ease-out"
+                className="pointer-events-none fixed z-[998] h-8 w-8 rounded-full border transition-transform duration-300 ease-out hidden sm:block"
                 style={{
                     left: `${mousePosition.x}px`,
                     top: `${mousePosition.y}px`,
@@ -878,6 +878,7 @@ export function Dashboard() {
                                                                                                     token.amount *
                                                                                                         token.price
                                                                                                 )}
+
                                                                                                 )
                                                                                             </span>
                                                                                         </div>
