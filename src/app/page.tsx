@@ -13,11 +13,15 @@ import { HoverCard } from '@/components/hover-card'
 import { LoadingScreen } from '@/components/loading-screen'
 import { Dashboard } from '@/components/dashboard'
 import { Header } from '@/components/Header'
+import { useTheme } from "next-themes";
+
 
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false); // State to handle hydration
+
+  const { theme } = useTheme(); 
 
   // useLayoutEffect for fixing hydration error
   useLayoutEffect(() => {
@@ -72,13 +76,25 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-secondary/30 blur-3xl opacity-20 rounded-full" />
                 <Image
-                  src="/aistr.jpeg"
-                  alt="AI Trading"
-                  width={530}
-                  height={530}
-                  className="relative rounded-3xl"
-                  priority
-                />
+  src="/aistr.jpeg"
+  alt="AI Trading"
+  width={530}
+  height={530}
+  className="relative rounded-3xl"
+  priority
+  style={
+    theme === "dark"
+      ? {
+          WebkitMaskImage:
+            "radial-gradient(circle, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%)",
+          maskImage:
+            "radial-gradient(circle, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%)"
+        }
+      : {}
+  }
+/>
+
+
               </div>
               <div className="space-y-6">
                 <Badge
