@@ -329,8 +329,8 @@ export default function Home() {
         {/* Call to Action Section */}
         <AnimatedSection className="py-24 pb-36 bg-background">
           <div className="container mx-auto max-w-7xl px-4">
-            <div className="text-center space-y-8">
-              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">Be part of the revolution</h2>
+            <div className="text-center space-y-20">
+              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">Be Part Of The Revolution</h2>
               <Button
                 size="lg"
                 className="rounded-full"
