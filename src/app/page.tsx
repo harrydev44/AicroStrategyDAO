@@ -42,23 +42,24 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <LoadingScreen />
       <div
-        className="pointer-events-none fixed z-[999] h-3 w-3 rounded-full transition-transform duration-200 ease-out"
-        style={{
-          left: `${mousePosition.x}px`,
-          top: `${mousePosition.y}px`,
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: '#df1f21'
-        }}
-      />
-      <div
-        className="pointer-events-none fixed z-[998] h-8 w-8 rounded-full border transition-transform duration-300 ease-out"
-        style={{
-          left: `${mousePosition.x}px`,
-          top: `${mousePosition.y}px`,
-          transform: 'translate(-50%, -50%)',
-          borderColor: '#df1f21'
-        }}
-      />
+  className="pointer-events-none fixed z-[999] h-3 w-3 rounded-full transition-transform duration-200 ease-out hidden sm:block"
+  style={{
+    left: `${mousePosition.x}px`,
+    top: `${mousePosition.y}px`,
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: '#df1f21'
+  }}
+/>
+<div
+  className="pointer-events-none fixed z-[998] h-8 w-8 rounded-full border transition-transform duration-300 ease-out hidden sm:block"
+  style={{
+    left: `${mousePosition.x}px`,
+    top: `${mousePosition.y}px`,
+    transform: 'translate(-50%, -50%)',
+    borderColor: '#df1f21'
+  }}
+/>
+
 
       {/* Header - Floating style */}
       <Header />
