@@ -437,7 +437,7 @@ export function Dashboard() {
         />
 
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
-          <div className="backdrop-blur-md bg-white/70 rounded-full border px-6 py-3">
+          <div className="backdrop-blur-md bg-background/70 rounded-full border px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="h-8 w-40 bg-gray-200 rounded-full animate-pulse" />
               <div className="flex items-center gap-8">
@@ -498,7 +498,7 @@ export function Dashboard() {
           </div>
         </main>
 
-        <footer className="border-t py-12 bg-white">
+        <footer className="border-t py-12 bg-background">
           <div className="container mx-auto max-w-7xl px-4">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-8">
@@ -605,7 +605,7 @@ export function Dashboard() {
                         const priceChange = token.price_24h_change || 0
                         
                         return (
-                          <div key={token.id} className="flex items-center justify-between p-2 md:p-3 border rounded-lg hover:bg-gray-50">
+                          <div key={token.id} className="flex items-center justify-between p-2 md:p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                             <div className="flex items-center gap-2 min-w-0">
                               <Image
                                 src={
@@ -672,7 +672,7 @@ export function Dashboard() {
                           {/* Protocol Positions */}
                           {protocol.portfolio_item_list.map((item) => (
                             <div key={`${protocol.id}-${item.name}`} className="border rounded-lg p-3 md:p-4">
-                              <div className="inline-block bg-gray-100 text-xs md:text-sm px-2 py-0.5 rounded mb-3">
+                              <div className="inline-block bg-gray-700 text-xs md:text-sm px-2 py-0.5 rounded mb-3">
                                 {item.name}
                               </div>
 
@@ -747,7 +747,7 @@ export function Dashboard() {
                     return !tx.is_scam && tokenId !== undefined ? !tokenDict[tokenId]?.is_scam : true;
                   })
                   .map((tx) => (
-                    <div key={tx.id} className="flex items-start md:items-center gap-3 p-2 md:p-3 border rounded-lg hover:bg-gray-50">
+                    <div key={tx.id} className="flex items-start md:items-center gap-3 p-2 md:p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                       {/* Left side - Icon and basic info */}
                       <div className="flex items-center gap-2 min-w-0 flex-[1.2]">
                         <Image
@@ -866,7 +866,7 @@ export function Dashboard() {
         </div>
       </main>
 
-      <footer className="border-t py-12 bg-white">
+      <footer className="border-t py-12 bg-background">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-8">

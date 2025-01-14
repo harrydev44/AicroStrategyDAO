@@ -65,7 +65,7 @@ export default function Home() {
 
       <main className="flex-1 pt-24">
         {/* Hero Section */}
-        <AnimatedSection className="relative min-h-[90vh] flex items-center bg-white">
+        <AnimatedSection className="relative min-h-[90vh] flex items-center bg-background">
           <div className="container relative z-10 mx-auto max-w-7xl px-4">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="relative">
@@ -148,7 +148,7 @@ export default function Home() {
 
 
         {/* Features Section */}
-        <AnimatedSection className="py-24 bg-white">
+        <AnimatedSection className="py-24 bg-background">
           <div className="container mx-auto max-w-7xl px-4">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12">
               <GradientText>Core Features</GradientText></h2>
@@ -298,7 +298,7 @@ export default function Home() {
         </AnimatedSection>
 
         {/* Community Section */}
-        <AnimatedSection className="py-24 bg-white">
+        <AnimatedSection className="py-24 bg-background">
           <div className="container mx-auto max-w-7xl px-4">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12">
               <GradientText>Join the Community</GradientText>
@@ -310,7 +310,7 @@ export default function Home() {
         </AnimatedSection>
 
         {/* Call to Action Section */}
-        <AnimatedSection className="py-24 pb-36 bg-white">
+        <AnimatedSection className="py-24 pb-36 bg-background">
           <div className="container mx-auto max-w-7xl px-4">
             <div className="text-center space-y-8">
               <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">Be part of the revolution</h2>
@@ -333,7 +333,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-12 bg-white">
+      <footer className="border-t py-12 bg-background">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="text-center text-muted-foreground">
             &copy; 2025 AicroStrategy. All rights reserved.
