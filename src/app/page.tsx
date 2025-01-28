@@ -75,8 +75,8 @@ export default function Home() {
                                 <Image
                                     src="/aistr.jpeg"
                                     alt="AI Trading"
-                                    width={530}
-                                    height={530}
+                                    width={450}
+                                    height={450}
                                     className="relative rounded-3xl"
                                     priority
                                     style={
